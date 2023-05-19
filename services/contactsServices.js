@@ -1,52 +1,23 @@
-const { randomUUID } = require('crypto');
-
-const { getAllContacts, writeAllContacts } = require('../db-models/contacts');
+const Contacts = require('../schemas/contacts');
 
 const getContactsService = async () => {
-  const contacts = await getAllContacts();
-  if (contacts.length === 0) {
-    return null;
-  }
-  return contacts;
+  return Contacts.find();
 };
 
 const getContactService = async contactId => {
-  const contacts = await getAllContacts();
-  const contact = contacts.find(contact => contact.id === contactId);
-  return contact || null;
+  return Contacts.findOne({ _id: contactId });
 };
 
 const createContactService = async data => {
-  const contacts = await getAllContacts();
-  const newContact = {
-    id: randomUUID(),
-    ...data,
-  };
-  contacts.push(newContact);
-  await writeAllContacts(contacts);
-  return newContact;
+  return Contacts.create(data);
 };
 
 const updateContactService = async (contactId, data) => {
-  const contacts = await getAllContacts();
-  const index = contacts.findIndex(contact => contact.id === contactId);
-  if (index === -1) {
-    return null;
-  }
-  contacts[index] = { ...contacts[index], ...data };
-  await writeAllContacts(contacts);
-  return contacts[index];
+  return Contacts.findByIdAndUpdate({ _id: contactId }, data, { new: true });
 };
 
 const deleteContactService = async contactId => {
-  const contacts = await getContactsService();
-  const index = contacts.findIndex(contact => contact.id === contactId);
-  if (index === -1) {
-    return null;
-  }
-  contacts.splice(index, 1);
-  await writeAllContacts(contacts);
-  return contactId;
+  return Contacts.findOneAndRemove({ _id: contactId });
 };
 
 module.exports = {
