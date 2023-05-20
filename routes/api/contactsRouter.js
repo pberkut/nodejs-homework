@@ -6,6 +6,7 @@ const {
   createContact,
   updateContact,
   deleteContact,
+  updateFavoriteContact,
 } = require('../../controllers/contactsControllers');
 
 const { validateBody } = require('../../decorators');
@@ -20,6 +21,8 @@ router.get('/:contactId', getContact);
 router.post('/', validateBody(createContactSchema), createContact);
 
 router.put('/:contactId', validateBody(updateContactSchema), updateContact);
+
+router.patch('/:contactId/favorite', updateFavoriteContact);
 
 router.delete('/:contactId', deleteContact);
 

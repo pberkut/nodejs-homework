@@ -20,10 +20,15 @@ const deleteContactService = async contactId => {
   return Contacts.findOneAndRemove({ _id: contactId });
 };
 
+const updateFavoriteContactService = async (contactId, data) => {
+  return Contacts.findByIdAndUpdate({ _id: contactId }, data, { new: true });
+};
+
 module.exports = {
   getContactsService,
   getContactService,
   createContactService,
   updateContactService,
   deleteContactService,
+  updateFavoriteContactService,
 };
