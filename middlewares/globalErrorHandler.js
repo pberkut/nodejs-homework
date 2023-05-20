@@ -8,4 +8,4 @@ const globalErrorHandler = (error, req, res, next) => {
   });
 };
 
-module.exports = { globalErrorHandler };
+module.exports = globalErrorHandler;
