@@ -4,7 +4,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const { contactsRouter } = require('./routes/api/contactsRouter');
-const { globalErrorHandler } = require('./middlewares/globalErrorHandler');
+const { globalErrorHandler } = require('./middlewares');
 
 const app = express();
 

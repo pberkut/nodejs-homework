@@ -2,9 +2,12 @@
   "name": "NodeJS_REST_API-backend",
   "version": "0.0.0",
   "private": true,
+  "engines": {
+    "node": ">=14.20.1"
+  },
   "scripts": {
     "start": "cross-env NODE_ENV=production node ./server.js",
-    "start:dev": "cross-env NODE_ENV=development nodemon ./server.js",
+    "start:dev": "cross-env NODE_ENV=development node --watch ./server.js",
     "lint": "eslint **/*.js",
     "lint:fix": "eslint --fix **/*.js"
   },

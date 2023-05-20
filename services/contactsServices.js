@@ -1,23 +1,27 @@
-const Contacts = require('../schemas/contacts');
+const { Contact } = require('../models/contactModel');
 
 const getContactsService = async () => {
-  return Contacts.find();
+  return Contact.find({}, '-createdAt -updatedAt');
 };
 
 const getContactService = async contactId => {
-  return Contacts.findOne({ _id: contactId });
+  return Contact.findOne({ _id: contactId });
 };
 
 const createContactService = async data => {
-  return Contacts.create(data);
+  return Contact.create(data);
 };
 
 const updateContactService = async (contactId, data) => {
-  return Contacts.findByIdAndUpdate({ _id: contactId }, data, { new: true });
+  return Contact.findByIdAndUpdate({ _id: contactId }, data, { new: true });
 };
 
 const deleteContactService = async contactId => {
-  return Contacts.findOneAndRemove({ _id: contactId });
+  return Contact.findOneAndRemove({ _id: contactId });
+};
+
+const updateFavoriteContactService = async (contactId, data) => {
+  return Contact.findByIdAndUpdate({ _id: contactId }, data, { new: true });
 };
 
 module.exports = {
@@ -26,4 +30,5 @@ module.exports = {
   createContactService,
   updateContactService,
   deleteContactService,
+  updateFavoriteContactService,
 };

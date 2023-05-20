@@ -50,10 +50,20 @@ const deleteContact = async (req, res) => {
   return res.json({ message: 'Contact deleted' });
 };
 
+const updateFavoriteContact = async (req, res) => {
+  const { contactId } = req.params;
+  const updateContact = await updateContactService(contactId, req.body);
+  if (!updateContact) {
+    throw HttpError(404, `Contact with id: ${contactId} not found`);
+  }
+  res.json(updateContact);
+};
+
 module.exports = {
   getContacts: controllerWrapper(getContacts),
   getContact: controllerWrapper(getContact),
   createContact: controllerWrapper(createContact),
   updateContact: controllerWrapper(updateContact),
   deleteContact: controllerWrapper(deleteContact),
+  updateFavoriteContact: controllerWrapper(updateFavoriteContact),
 };
