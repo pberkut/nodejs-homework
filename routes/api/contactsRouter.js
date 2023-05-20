@@ -24,10 +24,16 @@ router.get('/:contactId', isValidId, getContact);
 
 router.post('/', validateBody(createContactSchema), createContact);
 
-router.put('/:contactId', validateBody(updateContactSchema), updateContact);
+router.put(
+  '/:contactId',
+  isValidId,
+  validateBody(updateContactSchema),
+  updateContact,
+);
 
 router.patch(
   '/:contactId/favorite',
+  isValidId,
   validateBody(updateFavoriteSchema),
   updateFavoriteContact,
 );
