@@ -31,10 +31,10 @@ const updateFavoriteContactSchema = Joi.object({
     .messages({ 'any.required': 'missing field favorite' }),
 });
 
-const schemas = {
+const contactSchemas = {
   createContactSchema,
   updateContactSchema,
   updateFavoriteContactSchema,
 };
 
-module.exports = schemas;
+module.exports = contactSchemas;
