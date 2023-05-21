@@ -11,8 +11,11 @@ const {
 
 const { validateBody } = require('../../decorators');
 
-const { createContactSchema, updateContactSchema, updateFavoriteSchema } =
-  require('../../models/contactModel').schemas;
+const {
+  createContactSchema,
+  updateContactSchema,
+  updateFavoriteContactSchema,
+} = require('../../schemas/contactSchemas');
 
 const { isValidId } = require('../../middlewares');
 
@@ -34,7 +37,7 @@ router.put(
 router.patch(
   '/:contactId/favorite',
   isValidId,
-  validateBody(updateFavoriteSchema),
+  validateBody(updateFavoriteContactSchema),
   updateFavoriteContact,
 );
 
