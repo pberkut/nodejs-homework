@@ -11,12 +11,12 @@ const contactSchema = new Schema(
     },
     email: {
       type: String,
-      required: true,
+      required: [true, 'Email is required'],
       unique: true,
     },
     phone: {
       type: String,
-      required: true,
+      required: [true, 'Phone is required'],
     },
     favorite: {
       type: Boolean,
@@ -30,4 +30,4 @@ contactSchema.post('save', handleMongooseError);
 
 const Contact = model('contact', contactSchema);
 
-module.exports = { Contact };
+module.exports = Contact;
