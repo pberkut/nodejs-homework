@@ -7,15 +7,20 @@ const {
   logoutUser,
 } = require('../../controllers/authControllers');
 
+const { validateBody } = require('../../decorators');
+const { registerUserSchema, loginUserSchema, getCurrentUserSchema } =
+  require('../../schemas').userSchemas;
+const { isValidId } = require('../../middlewares');
+
 const router = express.Router();
 
 // signup
-router.post('/register', registerUser);
+router.post('/register', validateBody(registerUserSchema), registerUser);
 
 // signin
-router.post('/login', loginUser);
+router.post('/login', validateBody(getCurrentUserSchema), loginUser);
 
-router.get('/current', getCurrentUser);
+router.get('/current', isValidId, getCurrentUser);
 
 router.post('/logout', logoutUser);
 

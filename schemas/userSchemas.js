@@ -1,26 +1,44 @@
 const Joi = require('joi');
 
+const emailRegexp = /\b[\w.-]+@[\w.-]+\.\w{2,4}\b/;
+const passwordRegexp = /^(?=.*\d)(?=.*[a-zA-Z]).{6,}$/;
 const subscriptionList = ['starter', 'pro', 'business'];
-const passwordRegexp = '^(?=.*[A-Za-z])(?=.*d)[A-Za-zd]{8,}$';
 
-const createUserSchema = Joi.object({
+const registerUserSchema = Joi.object({
+  email: Joi.string()
+    .required()
+    .pattern(emailRegexp)
+    .messages({ 'any:required': 'Missing required email field' }),
+
+  password: Joi.string().required().pattern(passwordRegexp).messages({
+    'any.required': 'Missing required password field',
+    'string.pattern.base': 'Need 6 characters and 1 number',
+  }),
+
+  subscription: Joi.string().valid(...subscriptionList),
+});
+
+const loginUserSchema = Joi.object({
+  email: Joi.string().required().pattern(emailRegexp),
+  password: Joi.string(),
+});
+
+const getCurrentUserSchema = Joi.object({
+  email: Joi.string()
+    .required()
+    .pattern(emailRegexp)
+    .messages({ 'any:required': 'Missing required email field' }),
+
   password: Joi.string().required().pattern(passwordRegexp).messages({
     'any.required': 'Missing required password field',
     'string.pattern.base': 'Need 8 symbols with 1 number',
   }),
-
-  email: Joi.string()
-    .required()
-    .email({
-      minDomainSegments: 2,
-    })
-    .messages({ 'any:required': 'Missing required email field' }),
-
-  subscription: Joi.string()
-    .required()
-    .valid(...subscriptionList),
 });
 
-const userSchemas = { createUserSchema };
+const userSchemas = {
+  registerUserSchema,
+  loginUserSchema,
+  getCurrentUserSchema,
+};
 
 module.exports = userSchemas;

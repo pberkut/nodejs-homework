@@ -15,7 +15,7 @@ const {
   createContactSchema,
   updateContactSchema,
   updateFavoriteContactSchema,
-} = require('../../schemas/contactSchemas');
+} = require('../../schemas').contactSchemas;
 
 const { isValidId } = require('../../middlewares');
 

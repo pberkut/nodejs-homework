@@ -5,6 +5,9 @@ const {
   logoutUserService,
 } = require('../services/usersServices');
 
+const { HttpError } = require('../helpers');
+const { controllerWrapper } = require('../decorators');
+
 const registerUser = async (req, res) => {
   const result = await registerUserService(req.body);
   res.status(201).json(result);
@@ -25,4 +28,9 @@ const logoutUser = async (req, res) => {
   return result;
 };
 
-module.exports = { registerUser, loginUser, getCurrentUser, logoutUser };
+module.exports = {
+  registerUser: controllerWrapper(registerUser),
+  loginUser: controllerWrapper(loginUser),
+  getCurrentUser: controllerWrapper(getCurrentUser),
+  logoutUser: controllerWrapper(logoutUser),
+};
