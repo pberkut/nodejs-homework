@@ -23,17 +23,9 @@ const loginUserSchema = Joi.object({
   password: Joi.string().min(6).required(),
 });
 
-const getCurrentUserSchema = Joi.object({
-  email: Joi.string()
-    .required()
-    .pattern(emailRegexp)
-    .messages({ 'any:required': 'Missing required email field' }),
-});
-
 const userSchemas = {
   registerUserSchema,
   loginUserSchema,
-  getCurrentUserSchema,
 };
 
 module.exports = userSchemas;

@@ -5,7 +5,6 @@ const {
   getUserByEmailService,
   registerUserService,
   loginUserService,
-  getCurrentUserService,
   logoutUserService,
 } = require('../services/usersServices');
 
@@ -56,13 +55,14 @@ const loginUser = async (req, res) => {
 };
 
 const getCurrentUser = async (req, res) => {
-  const user = await getCurrentUserService();
-  return user;
+  const { email, subscription } = req.user;
+  res.json({ email, subscription });
 };
 
 const logoutUser = async (req, res) => {
-  const user = await logoutUserService();
-  return user;
+  const { _id } = req.user;
+  await logoutUserService(_id);
+  res.status(204).json();
 };
 
 module.exports = {

@@ -12,7 +12,7 @@ const { controllerWrapper } = require('../decorators');
 
 const getContacts = async (req, res) => {
   const { _id: owner } = req.user;
-  const contacts = await getContactsService(owner);
+  const contacts = await getContactsService(owner, req.query);
   if (!contacts) {
     throw HttpError(404, 'Contacts not found');
   }

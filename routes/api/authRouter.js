@@ -8,9 +8,9 @@ const {
 } = require('../../controllers/authControllers');
 
 const { validateBody } = require('../../decorators');
-const { registerUserSchema, loginUserSchema, getCurrentUserSchema } =
+const { registerUserSchema, loginUserSchema } =
   require('../../schemas').userSchemas;
-const { isValidId, authenticate } = require('../../middlewares');
+const { authenticate } = require('../../middlewares');
 
 const router = express.Router();
 
@@ -20,12 +20,7 @@ router.post('/register', validateBody(registerUserSchema), registerUser);
 // signin
 router.post('/login', validateBody(loginUserSchema), loginUser);
 
-router.get(
-  '/current',
-  isValidId,
-  validateBody(getCurrentUserSchema),
-  getCurrentUser,
-);
+router.get('/current', authenticate, getCurrentUser);
 
 router.post('/logout', authenticate, logoutUser);
 

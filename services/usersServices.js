@@ -32,16 +32,13 @@ const loginUserService = async (userId, body) => {
   };
 };
 
-const getCurrentUserService = async userId => {
-  return User.findById(userId);
+const logoutUserService = async userId => {
+  return User.findByIdAndUpdate(userId, { token: null });
 };
-
-const logoutUserService = async () => {};
 
 module.exports = {
   getUserByEmailService,
   registerUserService,
   loginUserService,
-  getCurrentUserService,
   logoutUserService,
 };
