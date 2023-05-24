@@ -4,6 +4,10 @@ const getUserByEmailService = async email => {
   return User.findOne({ email });
 };
 
+const getUserByIdService = async userId => {
+  return User.findById(userId);
+};
+
 const registerUserService = async body => {
   const { email, subscription } = await User.create(body);
   return {
@@ -37,8 +41,9 @@ const logoutUserService = async userId => {
 };
 
 module.exports = {
-  getUserByEmailService,
+  getUserByIdService,
   registerUserService,
   loginUserService,
+  getUserByEmailService,
   logoutUserService,
 };

@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-const { handleMongooseError } = require('../decorators');
+const { handleMongooseError } = require('../helpers');
 
 const subscriptionList = ['starter', 'pro', 'business'];
 const emailRegexp = /\b[\w.-]+@[\w.-]+\.\w{2,4}\b/;

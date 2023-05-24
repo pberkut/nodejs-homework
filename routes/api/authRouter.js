@@ -7,17 +7,14 @@ const {
   logoutUser,
 } = require('../../controllers/authControllers');
 
-const { validateBody } = require('../../decorators');
+const { authenticate, validateBody } = require('../../middlewares');
 const { registerUserSchema, loginUserSchema } =
   require('../../schemas').userSchemas;
-const { authenticate } = require('../../middlewares');
 
 const router = express.Router();
 
-// signup
 router.post('/register', validateBody(registerUserSchema), registerUser);
 
-// signin
 router.post('/login', validateBody(loginUserSchema), loginUser);
 
 router.get('/current', authenticate, getCurrentUser);

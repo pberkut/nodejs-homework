@@ -6,9 +6,7 @@ const {
   deleteContactService,
 } = require('../services/contactsServices');
 
-const { HttpError } = require('../helpers');
-
-const { controllerWrapper } = require('../decorators');
+const { HttpError, controllerWrapper } = require('../helpers');
 
 const getContacts = async (req, res) => {
   const { _id: owner } = req.user;
