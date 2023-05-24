@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt');
 
+const { BCRYPT_SALT } = process.env;
+
 const {
   getUserByEmailService,
   registerUserService,
@@ -18,19 +20,45 @@ const registerUser = async (req, res) => {
     throw HttpError(409, 'Email already in use');
   }
 
-  const hashPassword = await bcrypt.hash(password, 10);
+  const hashPassword = await bcrypt.hash(password, parseInt(BCRYPT_SALT));
 
   const newUser = await registerUserService({
     ...req.body,
     password: hashPassword,
   });
 
-  res.status(201).json(newUser);
+  const response = {
+    user: {
+      email: newUser.email,
+      subscription: newUser.subscription,
+    },
+  };
+
+  res.status(201).json(response);
 };
 
 const loginUser = async (req, res) => {
-  const user = await loginUserService();
-  res.json(user);
+  const { email, password } = req.body;
+
+  const user = await getUserByEmailService(email);
+  if (!user) {
+    throw HttpError(401, 'Email or password is wrong');
+  }
+  const passwordCompare = await bcrypt.compare(password, user.password);
+  if (!passwordCompare) {
+    throw HttpError(401, 'Email or password is wrong');
+  }
+
+  const loginUser = await loginUserService();
+
+  const response = {
+    token: 'qweqwe.weqe.1231ew',
+    user: {
+      email: loginUser.email,
+      subscription: loginUser.subscription,
+    },
+  };
+  res.json(response);
 };
 
 const getCurrentUser = async (req, res) => {

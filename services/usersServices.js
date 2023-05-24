@@ -8,7 +8,9 @@ const registerUserService = async body => {
   return User.create(body);
 };
 
-const loginUserService = async () => {};
+const loginUserService = async () => {
+  return User.findOne;
+};
 
 const getCurrentUserService = async userId => {
   return User.findById(userId);
