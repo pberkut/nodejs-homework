@@ -1,27 +1,27 @@
 const { Contact } = require('../models');
 
-const getContactsService = async () => {
-  return Contact.find({}, '-createdAt -updatedAt');
+const getContactsService = async owner => {
+  return Contact.find({ owner }, '-createdAt -updatedAt');
 };
 
 const getContactService = async contactId => {
   return Contact.findOne({ _id: contactId });
 };
 
-const createContactService = async data => {
-  return Contact.create(data);
+const createContactService = async body => {
+  return Contact.create(body);
 };
 
-const updateContactService = async (contactId, data) => {
-  return Contact.findByIdAndUpdate({ _id: contactId }, data, { new: true });
+const updateContactService = async (contactId, body) => {
+  return Contact.findByIdAndUpdate({ _id: contactId }, body, { new: true });
+};
+
+const updateFavoriteContactService = async (contactId, body) => {
+  return Contact.findByIdAndUpdate({ _id: contactId }, body, { new: true });
 };
 
 const deleteContactService = async contactId => {
   return Contact.findOneAndRemove({ _id: contactId });
-};
-
-const updateFavoriteContactService = async (contactId, data) => {
-  return Contact.findByIdAndUpdate({ _id: contactId }, data, { new: true });
 };
 
 module.exports = {

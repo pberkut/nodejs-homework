@@ -11,7 +11,8 @@ const { HttpError } = require('../helpers');
 const { controllerWrapper } = require('../decorators');
 
 const getContacts = async (req, res) => {
-  const contacts = await getContactsService();
+  const { _id: owner } = req.user;
+  const contacts = await getContactsService(owner);
   if (!contacts) {
     throw HttpError(404, 'Contacts not found');
   }
@@ -28,7 +29,8 @@ const getContact = async (req, res) => {
 };
 
 const createContact = async (req, res) => {
-  const newContact = await createContactService(req.body);
+  const { _id: owner } = req.user;
+  const newContact = await createContactService({ ...req.body, owner });
   return res.status(201).json(newContact);
 };
 

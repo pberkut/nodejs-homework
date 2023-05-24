@@ -1,8 +1,8 @@
-const globalErrorHandler = (error, req, res, next) => {
+const globalErrorHandler = (err, req, res, next) => {
   const {
     status = 500,
     message = 'Server error. Something went wrong please try again later',
-  } = error;
+  } = err;
   res.status(status).json({
     message,
   });
