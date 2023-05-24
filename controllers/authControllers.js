@@ -1,4 +1,7 @@
+const bcrypt = require('bcrypt');
+
 const {
+  getUserByEmailService,
   registerUserService,
   loginUserService,
   getCurrentUserService,
@@ -9,23 +12,35 @@ const { HttpError } = require('../helpers');
 const { controllerWrapper } = require('../decorators');
 
 const registerUser = async (req, res) => {
-  const result = await registerUserService(req.body);
-  res.status(201).json(result);
+  const { email, password } = req.body;
+  const user = await getUserByEmailService(email);
+  if (user) {
+    throw HttpError(409, 'Email already in use');
+  }
+
+  const hashPassword = await bcrypt.hash(password, 10);
+
+  const newUser = await registerUserService({
+    ...req.body,
+    password: hashPassword,
+  });
+
+  res.status(201).json(newUser);
 };
 
 const loginUser = async (req, res) => {
-  const result = await loginUserService();
-  res.json(result);
+  const user = await loginUserService();
+  res.json(user);
 };
 
 const getCurrentUser = async (req, res) => {
-  const result = await getCurrentUserService();
-  return result;
+  const user = await getCurrentUserService();
+  return user;
 };
 
 const logoutUser = async (req, res) => {
-  const result = await logoutUserService();
-  return result;
+  const user = await logoutUserService();
+  return user;
 };
 
 module.exports = {

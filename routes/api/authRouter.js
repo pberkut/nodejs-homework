@@ -18,9 +18,14 @@ const router = express.Router();
 router.post('/register', validateBody(registerUserSchema), registerUser);
 
 // signin
-router.post('/login', validateBody(getCurrentUserSchema), loginUser);
+router.post('/login', validateBody(loginUserSchema), loginUser);
 
-router.get('/current', isValidId, getCurrentUser);
+router.get(
+  '/current',
+  isValidId,
+  validateBody(getCurrentUserSchema),
+  getCurrentUser,
+);
 
 router.post('/logout', logoutUser);
 

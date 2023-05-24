@@ -1,7 +1,11 @@
 const { User } = require('../models');
 
-const registerUserService = async data => {
-  return User.create(data);
+const getUserByEmailService = async email => {
+  return User.findOne({ email });
+};
+
+const registerUserService = async body => {
+  return User.create(body);
 };
 
 const loginUserService = async () => {};
@@ -13,6 +17,7 @@ const getCurrentUserService = async userId => {
 const logoutUserService = async () => {};
 
 module.exports = {
+  getUserByEmailService,
   registerUserService,
   loginUserService,
   getCurrentUserService,
