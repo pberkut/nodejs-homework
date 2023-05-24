@@ -57,14 +57,9 @@ const loginUser = async (req, res) => {
 
   const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: '23h' });
 
-  const response = {
-    token: token,
-    user: {
-      email: user.email,
-      subscription: user.subscription,
-    },
-  };
-  res.json(response);
+  const userWithSavedToken = await loginUserService(user._id, { token });
+
+  res.json(userWithSavedToken);
 };
 
 const getCurrentUser = async (req, res) => {

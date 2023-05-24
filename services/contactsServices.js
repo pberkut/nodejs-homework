@@ -1,7 +1,10 @@
 const { Contact } = require('../models');
 
 const getContactsService = async owner => {
-  return Contact.find({ owner }, '-createdAt -updatedAt');
+  return Contact.find({ owner }, '-createdAt -updatedAt').populate(
+    'owner',
+    'email subscription',
+  );
 };
 
 const getContactService = async contactId => {

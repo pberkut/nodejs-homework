@@ -8,8 +8,22 @@ const registerUserService = async body => {
   return User.create(body);
 };
 
-const loginUserService = async () => {
-  return User.findOne;
+const loginUserService = async (userId, body) => {
+  const { token, email, subscription } = await User.findByIdAndUpdate(
+    { _id: userId },
+    body,
+    {
+      new: true,
+      select: 'email subscription token',
+    },
+  );
+  return {
+    token,
+    user: {
+      email,
+      subscription,
+    },
+  };
 };
 
 const getCurrentUserService = async userId => {

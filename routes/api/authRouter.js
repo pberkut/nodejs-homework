@@ -10,7 +10,7 @@ const {
 const { validateBody } = require('../../decorators');
 const { registerUserSchema, loginUserSchema, getCurrentUserSchema } =
   require('../../schemas').userSchemas;
-const { isValidId } = require('../../middlewares');
+const { isValidId, authenticate } = require('../../middlewares');
 
 const router = express.Router();
 
@@ -27,6 +27,6 @@ router.get(
   getCurrentUser,
 );
 
-router.post('/logout', logoutUser);
+router.post('/logout', authenticate, logoutUser);
 
 module.exports = { usersRouter: router };
