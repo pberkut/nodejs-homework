@@ -9,18 +9,18 @@ const registerUserSchema = Joi.object({
     .required()
     .pattern(emailRegexp)
     .messages({ 'any:required': 'Missing required email field' }),
-
   password: Joi.string().required().pattern(passwordRegexp).messages({
     'any.required': 'Missing required password field',
     'string.pattern.base': 'Need 6 characters and 1 number',
   }),
-
-  subscription: Joi.string().valid(...subscriptionList),
+  subscription: Joi.string()
+    .required()
+    .valid(...subscriptionList),
 });
 
 const loginUserSchema = Joi.object({
   email: Joi.string().required().pattern(emailRegexp),
-  password: Joi.string(),
+  password: Joi.string().min(6).required(),
 });
 
 const getCurrentUserSchema = Joi.object({
@@ -28,11 +28,6 @@ const getCurrentUserSchema = Joi.object({
     .required()
     .pattern(emailRegexp)
     .messages({ 'any:required': 'Missing required email field' }),
-
-  password: Joi.string().required().pattern(passwordRegexp).messages({
-    'any.required': 'Missing required password field',
-    'string.pattern.base': 'Need 8 symbols with 1 number',
-  }),
 });
 
 const userSchemas = {
