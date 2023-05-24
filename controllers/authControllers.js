@@ -29,14 +29,7 @@ const registerUser = async (req, res) => {
     password: hashPassword,
   });
 
-  const response = {
-    user: {
-      email: newUser.email,
-      subscription: newUser.subscription,
-    },
-  };
-
-  res.status(201).json(response);
+  res.status(201).json(newUser);
 };
 
 const loginUser = async (req, res) => {

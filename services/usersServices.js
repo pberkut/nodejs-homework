@@ -5,7 +5,13 @@ const getUserByEmailService = async email => {
 };
 
 const registerUserService = async body => {
-  return User.create(body);
+  const { email, subscription } = await User.create(body);
+  return {
+    user: {
+      email,
+      subscription,
+    },
+  };
 };
 
 const loginUserService = async (userId, body) => {
