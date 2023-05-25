@@ -6,7 +6,6 @@ const {
   createContact,
   updateContact,
   deleteContact,
-  updateFavoriteContact,
 } = require('../../controllers/contacts-controllers');
 
 const {
@@ -43,7 +42,7 @@ router.patch(
   authenticate,
   isValidId,
   validateBody(updateFavoriteContactValidationSchema),
-  updateFavoriteContact,
+  updateContact,
 );
 
 router.delete('/:contactId', authenticate, isValidId, deleteContact);

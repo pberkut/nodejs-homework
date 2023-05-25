@@ -12,6 +12,7 @@ const { HttpError, controllerWrapper } = require('../utils');
 
 const { BCRYPT_SALT } = process.env;
 const { JWT_SECRET_KEY } = process.env;
+const { JWT_EXPIRES_IN } = process.env;
 
 const registerUser = async (req, res) => {
   const { email, password } = req.body;
@@ -46,7 +47,9 @@ const loginUser = async (req, res) => {
     id: user._id,
   };
 
-  const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: '23h' });
+  const token = jwt.sign(payload, JWT_SECRET_KEY, {
+    expiresIn: parseInt(JWT_EXPIRES_IN),
+  });
 
   const userWithSavedToken = await loginUserService(user._id, { token });
 

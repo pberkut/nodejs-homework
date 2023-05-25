@@ -1,16 +1,26 @@
 const { Contact } = require('../models');
+const { HttpError } = require('../utils');
 
 const getContactsService = async (owner, query) => {
   const { page = 1, limit = 10 } = query;
   const skip = (page - 1) * limit;
-  return Contact.find({ owner }, '-createdAt -updatedAt', {
+  const contacts = Contact.find({ owner }, '-createdAt -updatedAt', {
     skip,
     limit,
   }).populate('owner', 'email subscription');
+
+  if (!contacts) {
+    throw new HttpError(404, 'Contacts not found');
+  }
+  return contacts;
 };
 
 const getContactService = async contactId => {
-  return Contact.findOne({ _id: contactId });
+  const contact = Contact.findOne({ _id: contactId });
+  if (!contact) {
+    throw new HttpError(404, `Contact with id: ${contactId} not found`);
+  }
+  return contact;
 };
 
 const createContactService = async body => {
@@ -18,15 +28,21 @@ const createContactService = async body => {
 };
 
 const updateContactService = async (contactId, body) => {
-  return Contact.findByIdAndUpdate({ _id: contactId }, body, { new: true });
-};
-
-const updateFavoriteContactService = async (contactId, body) => {
-  return Contact.findByIdAndUpdate({ _id: contactId }, body, { new: true });
+  const updateContact = Contact.findByIdAndUpdate({ _id: contactId }, body, {
+    new: true,
+  });
+  if (!updateContact) {
+    throw new HttpError(404, `Contact with id: ${contactId} not found`);
+  }
+  return updateContact;
 };
 
 const deleteContactService = async contactId => {
-  return Contact.findOneAndRemove({ _id: contactId });
+  const contact = Contact.findOneAndRemove({ _id: contactId });
+  if (!contact) {
+    throw new HttpError(404, `Contact with id: ${contactId} not found`);
+  }
+  return contactId;
 };
 
 module.exports = {
@@ -35,5 +51,4 @@ module.exports = {
   createContactService,
   updateContactService,
   deleteContactService,
-  updateFavoriteContactService,
 };
