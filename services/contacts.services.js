@@ -13,7 +13,7 @@ const getContactsService = async (owner, query) => {
   } else if (favorite === 'false') {
     filter.favorite = false;
   }
-  const contacts = Contact.find(filter, '-createdAt -updatedAt', {
+  const contacts = await Contact.find(filter, '-createdAt -updatedAt', {
     skip,
     limit,
   }).populate('owner', 'email subscription');
@@ -25,7 +25,7 @@ const getContactsService = async (owner, query) => {
 };
 
 const getContactService = async contactId => {
-  const contact = Contact.findOne({ _id: contactId });
+  const contact = await Contact.findOne({ _id: contactId });
   if (!contact) {
     throw new HttpError(404, `Contact with id: ${contactId} not found`);
   }
@@ -37,9 +37,13 @@ const createContactService = async body => {
 };
 
 const updateContactService = async (contactId, body) => {
-  const updateContact = Contact.findByIdAndUpdate({ _id: contactId }, body, {
-    new: true,
-  });
+  const updateContact = await Contact.findByIdAndUpdate(
+    { _id: contactId },
+    body,
+    {
+      new: true,
+    },
+  );
   if (!updateContact) {
     throw new HttpError(404, `Contact with id: ${contactId} not found`);
   }
@@ -47,7 +51,7 @@ const updateContactService = async (contactId, body) => {
 };
 
 const deleteContactService = async contactId => {
-  const contact = Contact.findOneAndRemove({ _id: contactId });
+  const contact = await Contact.findOneAndRemove({ _id: contactId });
   if (!contact) {
     throw new HttpError(404, `Contact with id: ${contactId} not found`);
   }
