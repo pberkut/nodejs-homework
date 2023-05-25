@@ -4,18 +4,22 @@ const { authControllers } = require('../../controllers');
 
 const { authenticate, validateBody } = require('../../middlewares');
 const {
-  registerUserSchema,
-  loginUserSchema,
+  registerUserValidationSchema,
+  loginUserValidationSchema,
 } = require('../../schemas/user-schemas');
 
 const router = express.Router();
 
 router.post(
   '/register',
-  validateBody(registerUserSchema),
+  validateBody(registerUserValidationSchema),
   authControllers.registerUser,
 );
-router.post('/login', validateBody(loginUserSchema), authControllers.loginUser);
+router.post(
+  '/login',
+  validateBody(loginUserValidationSchema),
+  authControllers.loginUser,
+);
 router.get('/current', authenticate, authControllers.getCurrentUser);
 router.post('/logout', authenticate, authControllers.logoutUser);
 

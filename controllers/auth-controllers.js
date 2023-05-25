@@ -8,7 +8,7 @@ const {
   logoutUserService,
 } = require('../services/users-services');
 
-const { HttpError, controllerWrapper } = require('../helpers');
+const { HttpError, controllerWrapper } = require('../utils');
 
 const { BCRYPT_SALT } = process.env;
 const { JWT_SECRET_KEY } = process.env;

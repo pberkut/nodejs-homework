@@ -10,9 +10,9 @@ const {
 } = require('../../controllers/contacts-controllers');
 
 const {
-  createContactSchema,
-  updateContactSchema,
-  updateFavoriteContactSchema,
+  createContactValidationSchema,
+  updateContactValidationSchema,
+  updateFavoriteContactValidationSchema,
 } = require('../../schemas/contact-schemas');
 
 const { isValidId, authenticate, validateBody } = require('../../middlewares');
@@ -26,7 +26,7 @@ router.get('/:contactId', authenticate, isValidId, getContact);
 router.post(
   '/',
   authenticate,
-  validateBody(createContactSchema),
+  validateBody(createContactValidationSchema),
   createContact,
 );
 
@@ -34,7 +34,7 @@ router.put(
   '/:contactId',
   authenticate,
   isValidId,
-  validateBody(updateContactSchema),
+  validateBody(updateContactValidationSchema),
   updateContact,
 );
 
@@ -42,7 +42,7 @@ router.patch(
   '/:contactId/favorite',
   authenticate,
   isValidId,
-  validateBody(updateFavoriteContactSchema),
+  validateBody(updateFavoriteContactValidationSchema),
   updateFavoriteContact,
 );
 
