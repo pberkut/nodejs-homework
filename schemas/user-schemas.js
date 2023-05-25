@@ -6,20 +6,18 @@ const subscriptionList = ['starter', 'pro', 'business'];
 
 const registerUserSchema = Joi.object({
   email: Joi.string()
-    .required()
     .pattern(emailRegexp)
+    .required()
     .messages({ 'any:required': 'Missing required email field' }),
-  password: Joi.string().required().pattern(passwordRegexp).messages({
+  password: Joi.string().pattern(passwordRegexp).required().messages({
     'any.required': 'Missing required password field',
     'string.pattern.base': 'Need 6 characters and 1 number',
   }),
-  subscription: Joi.string()
-    .required()
-    .valid(...subscriptionList),
+  subscription: Joi.string().valid(...subscriptionList),
 });
 
 const loginUserSchema = Joi.object({
-  email: Joi.string().required().pattern(emailRegexp),
+  email: Joi.string().pattern(emailRegexp).required(),
   password: Joi.string().min(6).required(),
 });
 

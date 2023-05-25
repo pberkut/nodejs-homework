@@ -7,13 +7,13 @@ const {
   updateContact,
   deleteContact,
   updateFavoriteContact,
-} = require('../../controllers/contactsControllers');
+} = require('../../controllers/contacts-controllers');
 
 const {
   createContactSchema,
   updateContactSchema,
   updateFavoriteContactSchema,
-} = require('../../schemas').contactSchemas;
+} = require('../../schemas/contact-schemas');
 
 const { isValidId, authenticate, validateBody } = require('../../middlewares');
 

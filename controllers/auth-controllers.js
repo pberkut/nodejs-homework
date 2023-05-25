@@ -6,7 +6,7 @@ const {
   registerUserService,
   loginUserService,
   logoutUserService,
-} = require('../services/usersServices');
+} = require('../services/users-services');
 
 const { HttpError, controllerWrapper } = require('../helpers');
 
@@ -15,16 +15,16 @@ const { JWT_SECRET_KEY } = process.env;
 
 const registerUser = async (req, res) => {
   const { email, password } = req.body;
-  const user = await getUserByEmailService(email);
-  if (user) {
-    throw HttpError(409, 'Email already in use');
+  const candidate = await getUserByEmailService(email);
+  if (candidate) {
+    throw new HttpError(409, 'Email already in use');
   }
 
-  const hashPassword = await bcrypt.hash(password, parseInt(BCRYPT_SALT));
+  const hashedPassword = await bcrypt.hash(password, parseInt(BCRYPT_SALT));
 
   const newUser = await registerUserService({
     ...req.body,
-    password: hashPassword,
+    password: hashedPassword,
   });
 
   res.status(201).json(newUser);
@@ -35,11 +35,11 @@ const loginUser = async (req, res) => {
 
   const user = await getUserByEmailService(email);
   if (!user) {
-    throw HttpError(401, 'Email or password is wrong');
+    throw new HttpError(401, 'Email or password is wrong');
   }
   const passwordCompare = await bcrypt.compare(password, user.password);
   if (!passwordCompare) {
-    throw HttpError(401, 'Email or password is wrong');
+    throw new HttpError(401, 'Email or password is wrong');
   }
 
   const payload = {
