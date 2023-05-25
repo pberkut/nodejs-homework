@@ -4,7 +4,7 @@ const {
   createContactService,
   updateContactService,
   deleteContactService,
-} = require('../services/contacts-services');
+} = require('../services/contacts.services');
 
 const { controllerWrapper } = require('../utils');
 

@@ -6,13 +6,13 @@ const {
   createContact,
   updateContact,
   deleteContact,
-} = require('../../controllers/contacts-controllers');
+} = require('../../controllers/contacts.controllers');
 
 const {
   createContactValidationSchema,
   updateContactValidationSchema,
   updateFavoriteContactValidationSchema,
-} = require('../../schemas/contact-schemas');
+} = require('../../schemas/contact.schemas');
 
 const { isValidId, authenticate, validateBody } = require('../../middlewares');
 

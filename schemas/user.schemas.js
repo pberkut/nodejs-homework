@@ -11,7 +11,8 @@ const registerUserValidationSchema = Joi.object({
     .messages({ 'any:required': 'Missing required email field' }),
   password: Joi.string().pattern(passwordRegexp).required().messages({
     'any.required': 'Missing required password field',
-    'string.pattern.base': 'Need minimal 6 characters and included 1 number',
+    'string.pattern.base':
+      'Password should contain at least 6 characters one letter and one number',
   }),
   subscription: Joi.string().valid(...subscriptionList),
 });
@@ -22,9 +23,14 @@ const loginUserValidationSchema = Joi.object({
   email: registerUserValidationSchema.extract('email'),
 });
 
+const updateSubscriptionUserValidationSchema = Joi.object().keys({
+  subscription: registerUserValidationSchema.extract('subscription').required(),
+});
+
 const userSchemas = {
   registerUserValidationSchema,
   loginUserValidationSchema,
+  updateSubscriptionUserValidationSchema,
 };
 
 module.exports = userSchemas;

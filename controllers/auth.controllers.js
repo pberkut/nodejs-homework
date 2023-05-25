@@ -6,7 +6,8 @@ const {
   registerUserService,
   loginUserService,
   logoutUserService,
-} = require('../services/users-services');
+  updateUserService,
+} = require('../services/users.services');
 
 const { HttpError, controllerWrapper } = require('../utils');
 
@@ -14,7 +15,7 @@ const { BCRYPT_SALT } = process.env;
 const { JWT_SECRET_KEY } = process.env;
 const { JWT_EXPIRES_IN } = process.env;
 
-const registerUser = async (req, res) => {
+const registerUser = controllerWrapper(async (req, res) => {
   const { email, password } = req.body;
   const candidate = await getUserByEmailService(email);
   if (candidate) {
@@ -29,9 +30,9 @@ const registerUser = async (req, res) => {
   });
 
   res.status(201).json(newUser);
-};
+});
 
-const loginUser = async (req, res) => {
+const loginUser = controllerWrapper(async (req, res) => {
   const { email, password } = req.body;
 
   const user = await getUserByEmailService(email);
@@ -47,29 +48,38 @@ const loginUser = async (req, res) => {
     id: user._id,
   };
 
+  console.log(JWT_EXPIRES_IN);
+
   const token = jwt.sign(payload, JWT_SECRET_KEY, {
-    expiresIn: parseInt(JWT_EXPIRES_IN),
+    expiresIn: JWT_EXPIRES_IN,
   });
 
   const userWithSavedToken = await loginUserService(user._id, { token });
 
   res.json(userWithSavedToken);
-};
+});
 
-const getCurrentUser = async (req, res) => {
+const getCurrentUser = controllerWrapper(async (req, res) => {
   const { email, subscription } = req.user;
   res.json({ email, subscription });
-};
+});
 
-const logoutUser = async (req, res) => {
+const logoutUser = controllerWrapper(async (req, res) => {
   const { _id } = req.user;
   await logoutUserService(_id);
   res.status(204).json();
-};
+});
+
+const updateUser = controllerWrapper(async (req, res) => {
+  const { _id } = req.user;
+  const updateUser = await updateUserService(_id, req.body);
+  res.status(200).json(updateUser);
+});
 
 module.exports = {
-  registerUser: controllerWrapper(registerUser),
-  loginUser: controllerWrapper(loginUser),
-  getCurrentUser: controllerWrapper(getCurrentUser),
-  logoutUser: controllerWrapper(logoutUser),
+  registerUser,
+  loginUser,
+  getCurrentUser,
+  logoutUser,
+  updateUser,
 };

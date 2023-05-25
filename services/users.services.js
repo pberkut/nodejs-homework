@@ -40,10 +40,20 @@ const logoutUserService = async userId => {
   return User.findByIdAndUpdate(userId, { token: null });
 };
 
+const updateUserService = async (userId, body) => {
+  const { email, subscription } = await User.findByIdAndUpdate(userId, body, {
+    new: true,
+    select: 'email subscription',
+  });
+
+  return { email, subscription };
+};
+
 module.exports = {
   getUserByIdService,
   registerUserService,
   loginUserService,
   getUserByEmailService,
   logoutUserService,
+  updateUserService,
 };

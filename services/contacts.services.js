@@ -2,9 +2,18 @@ const { Contact } = require('../models');
 const { HttpError } = require('../utils');
 
 const getContactsService = async (owner, query) => {
-  const { page = 1, limit = 10 } = query;
+  const { page = 1, limit = 10, favorite } = query;
   const skip = (page - 1) * limit;
-  const contacts = Contact.find({ owner }, '-createdAt -updatedAt', {
+  const filter = {
+    owner,
+  };
+  console.log(owner);
+  if (favorite === 'true') {
+    filter.favorite = true;
+  } else if (favorite === 'false') {
+    filter.favorite = false;
+  }
+  const contacts = Contact.find(filter, '-createdAt -updatedAt', {
     skip,
     limit,
   }).populate('owner', 'email subscription');
