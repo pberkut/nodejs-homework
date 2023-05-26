@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-const { handleMongooseError } = require('../decorators');
+const { handleMongooseError } = require('../utils');
 
 const contactSchema = new Schema(
   {
@@ -11,16 +11,20 @@ const contactSchema = new Schema(
     },
     email: {
       type: String,
-      required: true,
+      required: [true, 'Email is required'],
       unique: true,
     },
     phone: {
       type: String,
-      required: true,
+      required: [true, 'Phone is required'],
     },
     favorite: {
       type: Boolean,
       default: false,
+    },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: 'user',
     },
   },
   { versionKey: false, timestamps: true },
@@ -30,4 +34,4 @@ contactSchema.post('save', handleMongooseError);
 
 const Contact = model('contact', contactSchema);
 
-module.exports = { Contact };
+module.exports = Contact;
