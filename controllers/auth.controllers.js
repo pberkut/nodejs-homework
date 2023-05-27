@@ -74,10 +74,13 @@ const updateUser = controllerWrapper(async (req, res) => {
   res.status(200).json(updateUser);
 });
 
+const updateAvatars = controllerWrapper(async (req, res) => {});
+
 module.exports = {
   registerUser,
   loginUser,
   getCurrentUser,
   logoutUser,
   updateUser,
+  updateAvatars,
 };

@@ -23,6 +23,8 @@ router.post(
   authControllers.loginUser,
 );
 
+router.patch('/avatars', authenticate, authControllers.updateAvatars);
+
 router.get('/current', authenticate, authControllers.getCurrentUser);
 
 router.post('/logout', authenticate, authControllers.logoutUser);
