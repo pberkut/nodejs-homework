@@ -39,16 +39,14 @@ const loginUser = controllerWrapper(async (req, res) => {
   if (!user) {
     throw new HttpError(401, 'Email or password is wrong');
   }
-  const passwordCompare = await bcrypt.compare(password, user.password);
-  if (!passwordCompare) {
+  const isPasswordCorrect = await bcrypt.compare(password, user.password);
+  if (!isPasswordCorrect) {
     throw new HttpError(401, 'Email or password is wrong');
   }
 
   const payload = {
     id: user._id,
   };
-
-  console.log(JWT_EXPIRES_IN);
 
   const token = jwt.sign(payload, JWT_SECRET_KEY, {
     expiresIn: JWT_EXPIRES_IN,
