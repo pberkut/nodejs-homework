@@ -65,8 +65,8 @@ const loginUser = controllerWrapper(async (req, res) => {
 });
 
 const getCurrentUser = controllerWrapper(async (req, res) => {
-  const { email, subscription } = req.user;
-  res.json({ email, subscription });
+  const { email, subscription, avatarURL } = req.user;
+  res.json({ email, avatarURL, subscription });
 });
 
 const logoutUser = controllerWrapper(async (req, res) => {

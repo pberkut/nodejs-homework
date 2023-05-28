@@ -19,18 +19,16 @@ const registerUserService = async body => {
 };
 
 const loginUserService = async (userId, body) => {
-  const { token, email, subscription } = await User.findByIdAndUpdate(
-    { _id: userId },
-    body,
-    {
+  const { token, email, avatarURL, subscription } =
+    await User.findByIdAndUpdate({ _id: userId }, body, {
       new: true,
-      select: 'email subscription token',
-    },
-  );
+      select: 'email subscription avatarURL token',
+    });
   return {
     token,
     user: {
       email,
+      avatarURL,
       subscription,
     },
   };

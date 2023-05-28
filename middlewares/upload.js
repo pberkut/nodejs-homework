@@ -21,7 +21,7 @@ const upload = multer({
     ) {
       cb(null, true);
     } else {
-      cb(null, false);
+      // cb(null, false);
       return cb(
         new HttpError(
           415,
