@@ -29,23 +29,23 @@ router.post(
   authControllers.loginUser,
 );
 
+router.get('/current', authenticate, authControllers.getCurrentUser);
+
 router.patch(
   '/avatars',
   authenticate,
   upload.single('avatar'),
   processImage,
-  authControllers.uploadAvatar,
+  authControllers.uploadAvatarUser,
 );
-
-router.get('/current', authenticate, authControllers.getCurrentUser);
-
-router.post('/logout', authenticate, authControllers.logoutUser);
 
 router.patch(
   '/subscription',
   authenticate,
   validateBody(updateSubscriptionUserValidationSchema),
-  authControllers.updateUser,
+  authControllers.updateSubscriptionUser,
 );
+
+router.post('/logout', authenticate, authControllers.logoutUser);
 
 module.exports = { usersRouter: router };
