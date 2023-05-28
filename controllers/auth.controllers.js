@@ -1,5 +1,8 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const gravatar = require('gravatar');
+const fs = require('fs/promises');
+const path = require('path');
 
 const {
   getUserByEmailService,
@@ -15,6 +18,8 @@ const { BCRYPT_SALT } = process.env;
 const { JWT_SECRET_KEY } = process.env;
 const { JWT_EXPIRES_IN } = process.env;
 
+const avatarsDir = path.join(__dirname, '../', 'public', 'avatars');
+
 const registerUser = controllerWrapper(async (req, res) => {
   const { email, password } = req.body;
   const candidate = await getUserByEmailService(email);
@@ -23,10 +28,12 @@ const registerUser = controllerWrapper(async (req, res) => {
   }
 
   const hashedPassword = await bcrypt.hash(password, parseInt(BCRYPT_SALT));
+  const avatarURL = gravatar.url(email);
 
   const newUser = await registerUserService({
     ...req.body,
     password: hashedPassword,
+    avatarURL,
   });
 
   res.status(201).json(newUser);
@@ -74,7 +81,17 @@ const updateUser = controllerWrapper(async (req, res) => {
   res.status(200).json(updateUser);
 });
 
-const updateAvatars = controllerWrapper(async (req, res) => {});
+const uploadAvatar = controllerWrapper(async (req, res) => {
+  const { _id } = req.user;
+  const { path: tempUploadPath, filename } = req.file;
+  const avatarName = `${_id}_${filename}`;
+  const resultUploadPath = path.join(avatarsDir, avatarName);
+  await fs.rename(tempUploadPath, resultUploadPath);
+  const avatarURL = path.join('avatars', avatarName);
+  await updateUserService(_id, { avatarURL });
+
+  res.json({ avatarURL });
+});
 
 module.exports = {
   registerUser,
@@ -82,5 +99,5 @@ module.exports = {
   getCurrentUser,
   logoutUser,
   updateUser,
-  updateAvatars,
+  uploadAvatar,
 };

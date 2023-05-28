@@ -2,7 +2,7 @@ const express = require('express');
 
 const { authControllers } = require('../../controllers');
 
-const { authenticate, validateBody } = require('../../middlewares');
+const { authenticate, validateBody, upload } = require('../../middlewares');
 const {
   registerUserValidationSchema,
   loginUserValidationSchema,
@@ -23,7 +23,12 @@ router.post(
   authControllers.loginUser,
 );
 
-router.patch('/avatars', authenticate, authControllers.updateAvatars);
+router.patch(
+  '/avatars',
+  authenticate,
+  upload.single('avatar'),
+  authControllers.uploadAvatar,
+);
 
 router.get('/current', authenticate, authControllers.getCurrentUser);
 
