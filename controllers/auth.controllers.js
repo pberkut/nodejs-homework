@@ -86,6 +86,7 @@ const uploadAvatar = controllerWrapper(async (req, res) => {
   const { path: tempUploadPath, filename } = req.file;
   const avatarName = `${_id}_${filename}`;
   const resultUploadPath = path.join(avatarsDir, avatarName);
+
   await fs.rename(tempUploadPath, resultUploadPath);
   const avatarURL = path.join('avatars', avatarName);
   await updateUserService(_id, { avatarURL });

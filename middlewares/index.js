@@ -3,6 +3,7 @@ const isValidId = require('./isValidId');
 const validateBody = require('./validateBody');
 const authenticate = require('./authenticate');
 const upload = require('./upload');
+const processImage = require('./processImage');
 
 module.exports = {
   globalErrorHandler,
@@ -10,4 +11,5 @@ module.exports = {
   authenticate,
   validateBody,
   upload,
+  processImage,
 };

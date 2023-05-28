@@ -2,7 +2,13 @@ const express = require('express');
 
 const { authControllers } = require('../../controllers');
 
-const { authenticate, validateBody, upload } = require('../../middlewares');
+const {
+  authenticate,
+  validateBody,
+  upload,
+  processImage,
+} = require('../../middlewares');
+
 const {
   registerUserValidationSchema,
   loginUserValidationSchema,
@@ -27,6 +33,7 @@ router.patch(
   '/avatars',
   authenticate,
   upload.single('avatar'),
+  processImage,
   authControllers.uploadAvatar,
 );
 
