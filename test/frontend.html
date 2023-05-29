@@ -34,10 +34,11 @@
     </form>
 
     <h2>Upload avatar</h2>
-    <form id="avatarForm" enctype="multipart/form-data">
+    <form id="avatarForm" action="/upload" method="POST" enctype="multipart/form-data">
         <label for="avatar"></label>
         <input id="avatar" type="file" name="avatar">
         <button type="submit">Upload</button>
+        <button type="reset">Reset</button>
     </form>
 
     <p>Current user</p>

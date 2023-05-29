@@ -14,13 +14,17 @@ const app = express();
 
 app.post('/users/register', registerUser);
 
-describe('test registerUser controller', () => {
+describe('test POST /users/register registerUser controller', () => {
   beforeAll(() => app.listen(3000));
-  afterAll(() => app.close());
+  // afterAll(() => app.close());
 
   test('registerUser response return statusCode = 200', async () => {
-    const response = await request(app).post('/users/register');
+    const response = await request(app)
+      .post('/users/register')
+      .field('email', 'para11@mail.com')
+      .field('password', 'a12345');
     expect(response.status).toBe(200);
-    expect(Array.isArray(response.body)).toBe(true);
+    expect(Object.isObject(response.body)).toBe(true);
+    expect(typeof response.body.token).toBe('string');
   });
 });

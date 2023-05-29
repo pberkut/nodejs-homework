@@ -2,10 +2,12 @@ const multer = require('multer');
 const path = require('path');
 const { HttpError } = require('../utils');
 
-const tempDir = path.join(__dirname, '../', 'temp');
+const tempDir = path.join(__dirname, '../', process.env.UPLOAD_DIR);
 
 const multerConfig = multer.diskStorage({
-  destination: tempDir,
+  destination: (req, file, cb) => {
+    cb(null, tempDir);
+  },
   filename: (req, file, cb) => {
     cb(null, file.originalname.toLowerCase().split(' ').join('-'));
   },
