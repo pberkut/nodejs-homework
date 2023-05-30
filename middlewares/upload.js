@@ -2,7 +2,8 @@ const multer = require('multer');
 const path = require('path');
 const { HttpError } = require('../utils');
 
-const tempDir = path.join(__dirname, '../', process.env.UPLOAD_DIR);
+const tempDir = path.join(process.cwd(), process.env.UPLOADS_DIR);
+console.log(tempDir);
 
 const multerConfig = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -19,7 +20,7 @@ const upload = multer({
     if (file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg') {
       cb(null, true);
     } else {
-      // cb(null, false);
+      cb(null, false);
       cb(
         new HttpError(
           415,

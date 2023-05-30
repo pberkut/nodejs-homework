@@ -4,7 +4,7 @@ const path = require('path');
 const { controllerWrapper } = require('../../utils');
 const { updateUserService } = require('../../services/users.services');
 
-const avatarsDir = path.join(__dirname, '../', 'public', 'avatars');
+const avatarsDir = path.join(process.cwd(), 'public', 'avatars');
 
 const uploadAvatarUser = controllerWrapper(async (req, res) => {
   const { _id } = req.user;
