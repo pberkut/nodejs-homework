@@ -2,16 +2,13 @@ const bcrypt = require('bcrypt');
 const gravatar = require('gravatar');
 const { HttpError, controllerWrapper } = require('../../utils');
 
-const {
-  getUserByEmailService,
-  registerUserService,
-} = require('../../services/users.services');
+const userServices = require('../../services/users.services');
 
 const { BCRYPT_SALT } = process.env;
 
 const registerUser = controllerWrapper(async (req, res) => {
   const { email, password } = req.body;
-  const candidate = await getUserByEmailService(email);
+  const candidate = await userServices.getUserByEmailService(email);
   if (candidate) {
     throw new HttpError(409, 'Email already in use');
   }
@@ -19,7 +16,7 @@ const registerUser = controllerWrapper(async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, parseInt(BCRYPT_SALT));
   const avatarURL = gravatar.url(email);
 
-  const newUser = await registerUserService({
+  const newUser = await userServices.register({
     ...req.body,
     password: hashedPassword,
     avatarURL,

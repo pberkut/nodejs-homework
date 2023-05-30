@@ -1,10 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const {
-  getUserByEmailService,
-  loginUserService,
-} = require('../../services/users.services');
+const userServices = require('../../services/users.services');
 const { HttpError, controllerWrapper } = require('../../utils');
 
 const { JWT_SECRET_KEY } = process.env;
@@ -13,7 +10,7 @@ const { JWT_EXPIRES_IN } = process.env;
 const loginUser = controllerWrapper(async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await getUserByEmailService(email);
+  const user = await userServices.getUserByEmailService(email);
   if (!user) {
     throw new HttpError(401, 'Email or password is wrong');
   }
@@ -30,7 +27,9 @@ const loginUser = controllerWrapper(async (req, res) => {
     expiresIn: JWT_EXPIRES_IN,
   });
 
-  const userWithSavedToken = await loginUserService(user._id, { token });
+  const userWithSavedToken = await userServices.login(user._id, {
+    token,
+  });
 
   res.json(userWithSavedToken);
 });

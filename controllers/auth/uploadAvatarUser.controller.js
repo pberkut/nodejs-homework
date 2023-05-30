@@ -2,7 +2,7 @@ const fs = require('fs/promises');
 const path = require('path');
 
 const { controllerWrapper } = require('../../utils');
-const { updateUserService } = require('../../services/users.services');
+const userServices = require('../../services/users.services');
 
 const avatarsDir = path.join(process.cwd(), 'public', 'avatars');
 
@@ -14,7 +14,7 @@ const uploadAvatarUser = controllerWrapper(async (req, res) => {
 
   await fs.rename(tempUploadPath, resultUploadPath);
   const avatarURL = path.join('avatars', avatarName);
-  await updateUserService(_id, { avatarURL });
+  await userServices.updateAvatar(_id, { avatarURL });
 
   res.json({ avatarURL });
 });

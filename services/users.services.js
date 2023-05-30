@@ -8,7 +8,7 @@ const getUserByIdService = async userId => {
   return User.findById(userId);
 };
 
-const registerUserService = async body => {
+const register = async body => {
   const { email, subscription } = await User.create(body);
   return {
     user: {
@@ -18,7 +18,7 @@ const registerUserService = async body => {
   };
 };
 
-const loginUserService = async (userId, body) => {
+const login = async (userId, body) => {
   const { token, email, avatarURL, subscription } =
     await User.findByIdAndUpdate({ _id: userId }, body, {
       new: true,
@@ -34,11 +34,11 @@ const loginUserService = async (userId, body) => {
   };
 };
 
-const logoutUserService = async userId => {
+const logout = async userId => {
   return User.findByIdAndUpdate(userId, { token: null });
 };
 
-const updateUserService = async (userId, body) => {
+const updateSubscription = async (userId, body) => {
   const { email, subscription } = await User.findByIdAndUpdate(userId, body, {
     new: true,
     select: 'email subscription',
@@ -47,11 +47,27 @@ const updateUserService = async (userId, body) => {
   return { email, subscription };
 };
 
-module.exports = {
-  getUserByIdService,
-  registerUserService,
-  loginUserService,
-  getUserByEmailService,
-  logoutUserService,
-  updateUserService,
+const updateAvatar = async (userId, newAvatarURL) => {
+  const { email, avatarURL } = await User.findByIdAndUpdate(
+    userId,
+    newAvatarURL,
+    {
+      new: true,
+      select: 'email avatarURL',
+    },
+  );
+
+  return { email, avatarURL };
 };
+
+const userServices = {
+  getUserByIdService,
+  getUserByEmailService,
+  register,
+  login,
+  updateSubscription,
+  updateAvatar,
+  logout,
+};
+
+module.exports = userServices;
