@@ -1,10 +1,10 @@
 const { User } = require('../models');
 
-const getUserByEmailService = async email => {
+const getUserByEmail = async email => {
   return User.findOne({ email });
 };
 
-const getUserByIdService = async userId => {
+const getUserById = async userId => {
   return User.findById(userId);
 };
 
@@ -48,21 +48,17 @@ const updateSubscription = async (userId, body) => {
 };
 
 const updateAvatar = async (userId, newAvatarURL) => {
-  const { email, avatarURL } = await User.findByIdAndUpdate(
-    userId,
-    newAvatarURL,
-    {
-      new: true,
-      select: 'email avatarURL',
-    },
-  );
+  const { avatarURL } = await User.findByIdAndUpdate(userId, newAvatarURL, {
+    new: true,
+    select: 'avatarURL',
+  });
 
-  return { email, avatarURL };
+  return { avatarURL };
 };
 
 const userServices = {
-  getUserByIdService,
-  getUserByEmailService,
+  getUserById,
+  getUserByEmail,
   register,
   login,
   updateSubscription,

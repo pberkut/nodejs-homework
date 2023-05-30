@@ -6,6 +6,7 @@
     "node": ">=14.20.1"
   },
   "scripts": {
+    "debug": "cross-env NODE_ENV=development nodemon --inspect ./server.js",
     "test": "jest --forceExit",
     "start": "cross-env NODE_ENV=production node ./server.js",
     "start:dev": "cross-env NODE_ENV=development nodemon ./server.js",

@@ -8,7 +8,7 @@ const { BCRYPT_SALT } = process.env;
 
 const registerUser = controllerWrapper(async (req, res) => {
   const { email, password } = req.body;
-  const candidate = await userServices.getUserByEmailService(email);
+  const candidate = await userServices.getUserByEmail(email);
   if (candidate) {
     throw new HttpError(409, 'Email already in use');
   }

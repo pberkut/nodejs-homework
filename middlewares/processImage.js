@@ -6,9 +6,10 @@ const processImage = async (req, res, next) => {
     return next(new HttpError(400, 'Uploaded file was empty'));
   }
   const { path } = req.file;
+
   await Jimp.read(path, (err, image) => {
     if (err) next(new HttpError('400'));
-    image.resize(250, 250).quality(90).write(path);
+    image.resize(250, 250).quality(80).greyscale().write(path);
     next();
   });
 };

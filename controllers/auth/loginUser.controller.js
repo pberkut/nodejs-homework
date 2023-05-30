@@ -10,7 +10,7 @@ const { JWT_EXPIRES_IN } = process.env;
 const loginUser = controllerWrapper(async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await userServices.getUserByEmailService(email);
+  const user = await userServices.getUserByEmail(email);
   if (!user) {
     throw new HttpError(401, 'Email or password is wrong');
   }
