@@ -2,8 +2,8 @@ const fs = require('fs/promises');
 // const path = require('path');
 
 const { controllerWrapper } = require('../../utils');
-const userServices = require('../../services/users.services');
-const cloudServices = require('../../services/cloud.services');
+const userServices = require('../../services/users.service');
+const cloudServices = require('../../services/cloud.service');
 
 const uploadAvatarUser = controllerWrapper(async (req, res) => {
   const { _id } = req.user;

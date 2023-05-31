@@ -1,5 +1,5 @@
 const { controllerWrapper } = require('../../utils');
-const { getContactService } = require('../../services/contacts.services');
+const { getContactService } = require('../../services/contacts.service');
 
 const getContactById = controllerWrapper(async (req, res) => {
   const { contactId } = req.params;

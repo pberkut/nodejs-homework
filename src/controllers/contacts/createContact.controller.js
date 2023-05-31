@@ -1,5 +1,5 @@
 const { controllerWrapper } = require('../../utils');
-const { createContactService } = require('../../services/contacts.services');
+const { createContactService } = require('../../services/contacts.service');
 
 const createContact = controllerWrapper(async (req, res) => {
   const { _id: owner } = req.user;

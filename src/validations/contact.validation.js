@@ -2,7 +2,7 @@ const Joi = require('joi');
 
 const emailRegexp = /\b[\w.-]+@[\w.-]+\.\w{2,4}\b/;
 
-const createContactValidationSchema = Joi.object({
+const createContact = Joi.object({
   name: Joi.string()
     .required()
     .messages({ 'any.required': 'Missing required name field' }),
@@ -21,26 +21,24 @@ const createContactValidationSchema = Joi.object({
   .min(1)
   .messages({ 'object.min': 'Missing fields' });
 
-const updateContactValidationSchema = Joi.object()
+const updateContact = Joi.object()
   .keys({
-    name: createContactValidationSchema.extract('name').optional(),
-    email: createContactValidationSchema.extract('email').optional(),
-    phone: createContactValidationSchema.extract('phone').optional(),
-    favorite: createContactValidationSchema.extract('favorite').optional(),
+    name: createContact.extract('name').optional(),
+    email: createContact.extract('email').optional(),
+    phone: createContact.extract('phone').optional(),
+    favorite: createContact.extract('favorite').optional(),
   })
   .or('name', 'email', 'phone', 'favorite');
 
-const updateFavoriteContactValidationSchema = Joi.object().keys({
-  favorite: createContactValidationSchema
+const updateFavoriteContact = Joi.object().keys({
+  favorite: createContact
     .extract('favorite')
     .required()
     .messages({ 'any.required': 'Missing field favorite' }),
 });
 
-const contactSchemas = {
-  createContactValidationSchema,
-  updateContactValidationSchema,
-  updateFavoriteContactValidationSchema,
+module.exports = {
+  createContact,
+  updateContact,
+  updateFavoriteContact,
 };
-
-module.exports = contactSchemas;

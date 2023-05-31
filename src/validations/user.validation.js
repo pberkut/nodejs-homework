@@ -4,7 +4,7 @@ const emailRegexp = /\b[\w.-]+@[\w.-]+\.\w{2,4}\b/;
 const passwordRegexp = /^(?=.*\d)(?=.*[a-zA-Z]).{6,}$/;
 const subscriptionList = ['starter', 'pro', 'business'];
 
-const registerUserValidationSchema = Joi.object({
+const register = Joi.object({
   email: Joi.string()
     .pattern(emailRegexp)
     .required()
@@ -17,20 +17,18 @@ const registerUserValidationSchema = Joi.object({
   subscription: Joi.string().valid(...subscriptionList),
 });
 
-const loginUserValidationSchema = Joi.object({
+const login = Joi.object({
   password: Joi.string().required(),
 }).keys({
-  email: registerUserValidationSchema.extract('email'),
+  email: register.extract('email'),
 });
 
-const updateSubscriptionUserValidationSchema = Joi.object().keys({
-  subscription: registerUserValidationSchema.extract('subscription').required(),
+const updateSubscription = Joi.object().keys({
+  subscription: register.extract('subscription').required(),
 });
 
-const userSchemas = {
-  registerUserValidationSchema,
-  loginUserValidationSchema,
-  updateSubscriptionUserValidationSchema,
+module.exports = {
+  register,
+  login,
+  updateSubscription,
 };
-
-module.exports = userSchemas;

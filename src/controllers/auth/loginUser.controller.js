@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const userServices = require('../../services/users.services');
+const userServices = require('../../services/users.service');
 const { HttpError, controllerWrapper } = require('../../utils');
 
 const { JWT_SECRET_KEY } = process.env;

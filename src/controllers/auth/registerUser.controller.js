@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const gravatar = require('gravatar');
 const { HttpError, controllerWrapper } = require('../../utils');
 
-const userServices = require('../../services/users.services');
+const userServices = require('../../services/users.service');
 
 const { BCRYPT_SALT } = process.env;
 
