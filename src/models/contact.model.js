@@ -1,6 +1,8 @@
 const { Schema, model } = require('mongoose');
 const { handleMongooseError } = require('../utils');
 
+const { EMAIL_REGEXP } = require('../libs/constants');
+
 const contactSchema = new Schema(
   {
     name: {
@@ -11,6 +13,7 @@ const contactSchema = new Schema(
     },
     email: {
       type: String,
+      match: EMAIL_REGEXP,
       required: [true, 'Email is required'],
       unique: true,
     },

@@ -5,7 +5,7 @@ const { HttpError } = require('../utils');
 const tempDir = path.join(process.cwd(), process.env.UPLOADS_DIR);
 
 const storageConfig = multer.diskStorage({
-  destination: (req, file, cb) => {
+  destination: (_req, _file, cb) => {
     cb(null, tempDir);
   },
   filename: (req, file, cb) => {

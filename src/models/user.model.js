@@ -1,26 +1,28 @@
 const { Schema, model } = require('mongoose');
 const { handleMongooseError } = require('../utils');
 
-const subscriptionList = ['starter', 'pro', 'business'];
-const emailRegexp = /\b[\w.-]+@[\w.-]+\.\w{2,4}\b/;
-const passwordRegexp = /^(?=.*\d)(?=.*[a-zA-Z]).{6,}$/;
+const {
+  EMAIL_REGEXP,
+  PASSWORD_REGEXP,
+  SUBSCRIPTION_LIST,
+} = require('../libs/constants');
 
 const userSchema = new Schema(
   {
     password: {
       type: String,
-      match: passwordRegexp,
+      match: PASSWORD_REGEXP,
       required: [true, 'Password is required'],
     },
     email: {
       type: String,
-      match: emailRegexp,
+      match: EMAIL_REGEXP,
       required: [true, 'Email is required'],
       unique: true,
     },
     subscription: {
       type: String,
-      enum: subscriptionList,
+      enum: SUBSCRIPTION_LIST,
       default: 'starter',
     },
     avatarURL: {
