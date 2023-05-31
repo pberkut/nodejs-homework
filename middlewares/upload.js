@@ -4,7 +4,7 @@ const { HttpError } = require('../utils');
 
 const tempDir = path.join(process.cwd(), process.env.UPLOADS_DIR);
 
-const multerConfig = multer.diskStorage({
+const storageConfig = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, tempDir);
   },
@@ -14,10 +14,11 @@ const multerConfig = multer.diskStorage({
 });
 
 const upload = multer({
-  storage: multerConfig,
-  fileFilter: (req, file, cb) => {
+  storage: storageConfig,
+  limits: { fileSize: 2000000 },
+  fileFilter: (_req, file, cb) => {
     if (file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg') {
-      cb(null, true);
+      return cb(null, true);
     } else {
       cb(null, false);
       cb(

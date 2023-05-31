@@ -14,7 +14,7 @@ const registerUser = controllerWrapper(async (req, res) => {
   }
 
   const hashedPassword = await bcrypt.hash(password, parseInt(BCRYPT_SALT));
-  const avatarURL = gravatar.url(email);
+  const avatarURL = gravatar.url(email, { s: '250' }, true);
 
   const newUser = await userServices.register({
     ...req.body,

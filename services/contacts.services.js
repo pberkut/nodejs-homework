@@ -7,7 +7,6 @@ const getContactsService = async (owner, query) => {
   const filter = {
     owner,
   };
-  console.log(owner);
   if (favorite === 'true') {
     filter.favorite = true;
   } else if (favorite === 'false') {

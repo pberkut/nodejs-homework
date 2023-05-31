@@ -1,20 +1,21 @@
 const fs = require('fs/promises');
-const path = require('path');
+// const path = require('path');
 
 const { controllerWrapper } = require('../../utils');
 const userServices = require('../../services/users.services');
-
-const avatarsDir = path.join(process.cwd(), 'public', 'avatars');
+const cloudServices = require('../../services/cloud.services');
 
 const uploadAvatarUser = controllerWrapper(async (req, res) => {
   const { _id } = req.user;
-  const { path: tempUploadPath, filename } = req.file;
-  const avatarName = `${_id}_${filename}`;
-  const resultUploadPath = path.join(avatarsDir, avatarName);
+  const pathFile = req.file.path;
 
-  await fs.rename(tempUploadPath, resultUploadPath);
-  const avatarURL = path.join('avatars', avatarName);
-  await userServices.updateAvatar(_id, { avatarURL });
+  const { secure_url: avatarURL, public_id: idCloudAvatar } =
+    await cloudServices.uploadAvatar(pathFile);
+
+  const oldAvatar = await userServices.getAvatar(_id);
+  await cloudServices.deleteAvatar(oldAvatar);
+  await userServices.updateAvatar(_id, avatarURL, idCloudAvatar);
+  await fs.unlink(pathFile);
 
   res.json({ avatarURL });
 });

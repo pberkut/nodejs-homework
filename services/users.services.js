@@ -43,17 +43,24 @@ const updateSubscription = async (userId, body) => {
     new: true,
     select: 'email subscription',
   });
-
   return { email, subscription };
 };
 
-const updateAvatar = async (userId, newAvatarURL) => {
-  const { avatarURL } = await User.findByIdAndUpdate(userId, newAvatarURL, {
-    new: true,
-    select: 'avatarURL',
-  });
+const updateAvatar = async (userId, newAvatarURL, newIdCloudAvatar) => {
+  const { avatarURL, idCloudAvatar } = await User.findByIdAndUpdate(
+    userId,
+    { avatarURL: newAvatarURL, idCloudAvatar: newIdCloudAvatar },
+    {
+      new: true,
+      select: 'avatarURL, idCloudAvatar',
+    },
+  );
+  return { avatarURL, idCloudAvatar };
+};
 
-  return { avatarURL };
+const getAvatar = async userId => {
+  const { avatarURL, idCloudAvatar } = await User.findById(userId);
+  return { avatarURL, idCloudAvatar };
 };
 
 const userServices = {
@@ -63,6 +70,7 @@ const userServices = {
   login,
   updateSubscription,
   updateAvatar,
+  getAvatar,
   logout,
 };
 

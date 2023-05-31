@@ -27,6 +27,7 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    idCloudAvatar: { type: String, default: null },
     token: {
       type: String,
       default: null,
