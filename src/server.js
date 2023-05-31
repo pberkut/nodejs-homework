@@ -1,12 +1,11 @@
 const app = require('./app');
 const connectDB = require('./db/connectDB');
 
-const { DB_HOST_URI, PORT = 3000 } = process.env;
+const { PORT = 3000 } = process.env;
 
 (async () => {
   try {
-    await connectDB(DB_HOST_URI);
-    console.log('Database connection established successfully!');
+    await connectDB;
 
     app.listen(PORT, () => {
       console.log(`Server running. Use our API on port: ${PORT}`);

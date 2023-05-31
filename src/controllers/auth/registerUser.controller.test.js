@@ -5,26 +5,42 @@ unit-тесты для контроллера входа (register)
 - в ответе должен возвращаться объект user с 2 полями email и subscription, имеющие тип данных String
 */
 
-const express = require('express');
 const request = require('supertest');
+const app = require('../../app');
+const connectDB = require('../../db/connectDB');
 
 const registerUser = require('./registerUser.controller');
 
-const app = express();
+const newUserForRegisterController = require('../../../tests/data/usersForRegister');
 
 app.post('/users/register', registerUser);
 
-describe('test POST /users/register registerUser controller', () => {
-  beforeAll(() => app.listen(3000));
-  // afterAll(() => app.close());
+describe('Test POST /users/register registerUser controller', () => {
+  let connect;
 
-  test('registerUser response return statusCode = 200', async () => {
+  beforeAll(async () => {
+    connect = await connectDB;
+  });
+  afterAll(() => connect.disconnect());
+
+  test('User register: status = 201', async () => {
     const response = await request(app)
       .post('/users/register')
-      .field('email', 'para11@mail.com')
-      .field('password', 'a12345');
-    expect(response.status).toBe(200);
-    expect(Object.isObject(response.body)).toBe(true);
-    expect(typeof response.body.token).toBe('string');
+      .send(newUserForRegisterController)
+      .set('Accept', 'application/json');
+    expect(response.status).toEqual(201);
+    expect(response.body).toBeDefined();
+    expect(typeof response.body).toBe('object');
+    expect(response.body).toHaveProperty('user');
+  });
+
+  it('User register with exist email: status 409', async () => {
+    const res = await request(app)
+      .post('/users/register')
+      .send(newUserForRegisterController)
+      .set('Accept', 'application/json');
+    expect(res.status).toEqual(409);
+    expect(res.body).toBeDefined();
+    expect(res.body).toHaveProperty('message');
   });
 });
