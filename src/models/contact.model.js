@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose');
 const { handleMongooseError } = require('../utils');
 
-const { EMAIL_REGEXP } = require('../libs/constants');
+const { EMAIL_REGEXP } = require('../constants/regexp');
 
 const contactSchema = new Schema(
   {

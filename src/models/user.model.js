@@ -5,7 +5,7 @@ const {
   EMAIL_REGEXP,
   PASSWORD_REGEXP,
   SUBSCRIPTION_LIST,
-} = require('../libs/constants');
+} = require('../constants/regexp');
 
 const userSchema = new Schema(
   {
