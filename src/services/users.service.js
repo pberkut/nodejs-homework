@@ -63,6 +63,13 @@ const getAvatar = async userId => {
   return { avatarURL, idCloudAvatar };
 };
 
+const getVerificationToken = async verificationToken => {
+  const user = await User.findOne({ verificationToken });
+  return user;
+};
+
+const verify = async () => {};
+
 const userServices = {
   getUserById,
   getUserByEmail,
@@ -72,6 +79,8 @@ const userServices = {
   updateAvatar,
   getAvatar,
   logout,
+  getVerificationToken,
+  verify,
 };
 
 module.exports = userServices;
