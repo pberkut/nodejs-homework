@@ -44,4 +44,6 @@ router.patch(
 
 router.post('/logout', authenticate, authController.logoutUser);
 
+router.get('/verify/:verificationToken', authController.verifyUser);
+
 module.exports = { usersRouter: router };
