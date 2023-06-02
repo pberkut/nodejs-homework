@@ -7,7 +7,7 @@ const register = Joi.object({
   email: Joi.string()
     .pattern(EMAIL_REGEXP)
     .required()
-    .messages({ 'any:required': 'Missing required email field' }),
+    .messages({ 'any.required': 'Missing required email field' }),
   password: Joi.string().pattern(PASSWORD_REGEXP).required().messages({
     'any.required': 'Missing required password field',
     'string.pattern.base':
