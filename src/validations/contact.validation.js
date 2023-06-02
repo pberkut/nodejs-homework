@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const emailRegexp = /\b[\w.-]+@[\w.-]+\.\w{2,4}\b/;
+const { EMAIL_REGEXP } = require('../constants/regexp');
 
 const createContact = Joi.object({
   name: Joi.string()
@@ -8,7 +8,7 @@ const createContact = Joi.object({
     .messages({ 'any.required': 'Missing required name field' }),
 
   email: Joi.string()
-    .pattern(emailRegexp)
+    .pattern(EMAIL_REGEXP)
     .required()
     .messages({ 'any.required': 'Missing required email field' }),
 

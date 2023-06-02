@@ -1,20 +1,23 @@
 const Joi = require('joi');
 
-const emailRegexp = /\b[\w.-]+@[\w.-]+\.\w{2,4}\b/;
-const passwordRegexp = /^(?=.*\d)(?=.*[a-zA-Z]).{6,}$/;
-const subscriptionList = ['starter', 'pro', 'business'];
+const { SUBSCRIPTION_LIST } = require('../constants/constants');
+const { EMAIL_REGEXP, PASSWORD_REGEXP } = require('../constants/regexp');
 
 const register = Joi.object({
   email: Joi.string()
-    .pattern(emailRegexp)
+    .pattern(EMAIL_REGEXP)
     .required()
     .messages({ 'any:required': 'Missing required email field' }),
-  password: Joi.string().pattern(passwordRegexp).required().messages({
+  password: Joi.string().pattern(PASSWORD_REGEXP).required().messages({
     'any.required': 'Missing required password field',
     'string.pattern.base':
       'Password should contain at least 6 characters one letter and one number',
   }),
-  subscription: Joi.string().valid(...subscriptionList),
+  subscription: Joi.string().valid(...SUBSCRIPTION_LIST),
+});
+
+const email = Joi.object().keys({
+  email: register.extract('email'),
 });
 
 const login = Joi.object({
@@ -29,6 +32,7 @@ const updateSubscription = Joi.object().keys({
 
 module.exports = {
   register,
+  email,
   login,
   updateSubscription,
 };

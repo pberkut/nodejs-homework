@@ -63,24 +63,32 @@ const getAvatar = async userId => {
   return { avatarURL, idCloudAvatar };
 };
 
-const getVerificationToken = async verificationToken => {
-  const user = await User.findOne({ verificationToken });
-  return user;
+const getUserByVerificationToken = async verificationToken => {
+  return await User.findOne({ verificationToken });
 };
 
-const verify = async () => {};
+const verifyEmail = async userId => {
+  await User.findByIdAndUpdate(
+    userId,
+    {
+      verify: true,
+      verificationToken: null,
+    },
+    { new: true },
+  );
+};
 
 const userServices = {
   getUserById,
   getUserByEmail,
+  getUserByVerificationToken,
   register,
+  verifyEmail,
   login,
   updateSubscription,
   updateAvatar,
   getAvatar,
   logout,
-  getVerificationToken,
-  verify,
 };
 
 module.exports = userServices;

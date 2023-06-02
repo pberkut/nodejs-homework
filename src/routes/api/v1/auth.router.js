@@ -19,6 +19,14 @@ router.post(
   authController.registerUser,
 );
 
+router.get('/verify/:verificationToken', authController.verifyEmail);
+
+router.post(
+  '/verify',
+  validateBody(userValidation.email),
+  authController.resendVerifyEmail,
+);
+
 router.post(
   '/login',
   validateBody(userValidation.login),
@@ -43,7 +51,5 @@ router.patch(
 );
 
 router.post('/logout', authenticate, authController.logoutUser);
-
-router.get('/verify/:verificationToken', authController.verifyUser);
 
 module.exports = { usersRouter: router };

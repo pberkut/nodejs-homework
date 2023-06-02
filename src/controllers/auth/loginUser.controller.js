@@ -11,13 +11,13 @@ const loginUser = controllerWrapper(async (req, res) => {
   const { email, password } = req.body;
 
   const user = await userServices.getUserByEmail(email);
-  if (!user) {
-    throw new HttpError(401, 'Email or password is wrong');
-  }
+  if (!user) throw new HttpError(401, 'Email or password is wrong');
+
   const isPasswordCorrect = await bcrypt.compare(password, user.password);
-  if (!isPasswordCorrect) {
+  if (!isPasswordCorrect)
     throw new HttpError(401, 'Email or password is wrong');
-  }
+
+  if (!user.verify) throw new HttpError(401, 'Email not verified');
 
   const payload = {
     id: user._id,

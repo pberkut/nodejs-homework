@@ -1,11 +1,9 @@
 const { Schema, model } = require('mongoose');
 const { handleMongooseError } = require('../utils');
 
-const {
-  EMAIL_REGEXP,
-  PASSWORD_REGEXP,
-  SUBSCRIPTION_LIST,
-} = require('../constants/regexp');
+const { EMAIL_REGEXP, PASSWORD_REGEXP } = require('../constants/regexp');
+
+const { SUBSCRIPTION_LIST } = require('../constants/constants');
 
 const userSchema = new Schema(
   {
