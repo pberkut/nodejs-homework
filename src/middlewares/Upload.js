@@ -4,31 +4,45 @@ const { HttpError } = require('../utils');
 
 const tempDir = path.join(process.cwd(), process.env.UPLOADS_DIR);
 
-const storageConfig = multer.diskStorage({
-  destination: (_req, _file, cb) => {
+const storage = multer.diskStorage({
+  destination: (req, _file, cb) => {
     cb(null, tempDir);
   },
   filename: (req, file, cb) => {
-    cb(null, file.originalname.toLowerCase().split(' ').join('-'));
+    const uniquePrefix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    const normalizeFilename = file.originalname
+      .toLowerCase()
+      .split(' ')
+      .join('-');
+
+    const newFilename = `${uniquePrefix}_${normalizeFilename}`;
+
+    cb(null, newFilename);
   },
 });
 
+const limits = {
+  fileSize: 2048 * 1024,
+};
+
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg') {
+    return cb(null, true);
+  } else {
+    cb(
+      new HttpError(
+        415,
+        'Unsupported Media Type. Only .jpg and .jpeg format allowed!',
+      ),
+      false,
+    );
+  }
+};
+
 const Upload = multer({
-  storage: storageConfig,
-  limits: { fileSize: 2000000 },
-  fileFilter: (_req, file, cb) => {
-    if (file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg') {
-      return cb(null, true);
-    } else {
-      cb(null, false);
-      cb(
-        new HttpError(
-          415,
-          'Unsupported Media Type. Only .jpg and .jpeg format allowed!',
-        ),
-      );
-    }
-  },
+  storage,
+  limits,
+  fileFilter,
 });
 
 module.exports = Upload;
