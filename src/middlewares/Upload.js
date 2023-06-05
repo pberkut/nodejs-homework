@@ -5,7 +5,7 @@ const { HttpError } = require('../utils');
 const tempDir = path.join(process.cwd(), process.env.UPLOADS_DIR);
 
 const storage = multer.diskStorage({
-  destination: (req, _file, cb) => {
+  destination: (req, file, cb) => {
     cb(null, tempDir);
   },
   filename: (req, file, cb) => {
@@ -26,17 +26,18 @@ const limits = {
 };
 
 const fileFilter = (req, file, cb) => {
-  if (file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg') {
+  const { mimetype } = file;
+  if (mimetype === 'image/jpg' || mimetype === 'image/jpeg') {
     return cb(null, true);
-  } else {
-    cb(
-      new HttpError(
-        415,
-        'Unsupported Media Type. Only .jpg and .jpeg format allowed!',
-      ),
-      false,
-    );
   }
+
+  cb(
+    new HttpError(
+      415,
+      'Unsupported Media Type. Only .jpg and .jpeg format allowed!',
+    ),
+    false,
+  );
 };
 
 const Upload = multer({
