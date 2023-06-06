@@ -1,8 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { HttpError, assignTokens } = require('../utils');
 const { userService, tokenService } = require('../services');
-const { JWT_ACCESS_TOKEN_SECRET_KEY, JWT_REFRESH_TOKEN_SECRET_KEY } =
-  process.env;
+const { JWT_ACCESS_TOKEN_SECRET_KEY, JWT_REFRESH_TOKEN_SECRET_KEY } = process.env;
 
 const authenticate = async (req, res, next) => {
   const { authorization = '' } = req.headers;
@@ -20,17 +19,10 @@ const authenticate = async (req, res, next) => {
 
     fetchedUser = await userService.getUserById(userId);
 
-    // const { id } = jwt.verify(token, JWT_SECRET_KEY);
-    // const user = await userService.getUserById(id);
-    // if (!fetchedUser || !fetchedUser.token || fetchedUser.token !== token) {
-    //   next(new HttpError(401, 'Not authorized'));
-    // }
-
     if (
       !fetchedUser ||
       !fetchedUser.refreshToken
-      // ||
-      // fetchedUser.refreshToken !== token
+      // || fetchedUser.refreshToken !== token
     ) {
       throw new HttpError(401, 'Not authorized');
     }
@@ -42,7 +34,7 @@ const authenticate = async (req, res, next) => {
     next();
   } catch (error) {
     if (error.name !== 'TokenExpiredError') {
-      return next(new HttpError(401, error.message || 'Not authorized'));
+      return next(new HttpError(401, 'Not authorized'));
     }
 
     try {

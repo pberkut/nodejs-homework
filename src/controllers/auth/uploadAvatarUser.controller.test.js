@@ -8,12 +8,7 @@ const loginUser = require('./loginUser.controller');
 const uploadAvatarUser = require('./uploadAvatarUser.controller');
 
 const newUserTest = require('../../../tests/data/usersForTest');
-const pathAvatar = path.join(
-  process.cwd(),
-  'tests',
-  'data',
-  'avatar-default.jpg',
-);
+const pathAvatar = path.join(process.cwd(), 'tests', 'data', 'avatar-default.jpg');
 
 // jest.mock('cloudinary');
 
@@ -44,8 +39,6 @@ describe('Test POST /users/avatars uploadAvatarUser.controller', () => {
       .patch('/users/avatars')
       .set('Authorization', `Bearer ${token}`)
       .attach('avatar', buffer, 'avatar-default.jpg');
-    // console.log(token);
-    // console.log(res.body);
 
     expect(res.status).toEqual(200);
     expect(res.body).toBeDefined();
