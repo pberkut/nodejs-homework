@@ -1,9 +1,12 @@
 const { controllerWrapper } = require('../../utils');
-const { updateContactService } = require('../../services/contacts.service');
+const { contactsService } = require('../../services');
 
 const updateContact = controllerWrapper(async (req, res) => {
   const { contactId } = req.params;
-  const updateContact = await updateContactService(contactId, req.body);
+  const updateContact = await contactsService.updateContact(
+    contactId,
+    req.body,
+  );
   res.json(updateContact);
 });
 

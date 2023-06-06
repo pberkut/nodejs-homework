@@ -1,7 +1,7 @@
 const { Contact } = require('../models');
 const { HttpError } = require('../utils');
 
-const getContactsService = async (owner, query) => {
+const getAllContacts = async (owner, query) => {
   const { page = 1, limit = 10, favorite } = query;
   const skip = (page - 1) * limit;
   const filter = {
@@ -23,7 +23,7 @@ const getContactsService = async (owner, query) => {
   return contacts;
 };
 
-const getContactService = async contactId => {
+const getContactById = async contactId => {
   const contact = await Contact.findOne({ _id: contactId });
   if (!contact) {
     throw new HttpError(404, `Contact with id: ${contactId} not found`);
@@ -31,11 +31,11 @@ const getContactService = async contactId => {
   return contact;
 };
 
-const createContactService = async body => {
+const createContact = async body => {
   return Contact.create(body);
 };
 
-const updateContactService = async (contactId, body) => {
+const updateContact = async (contactId, body) => {
   const updateContact = await Contact.findByIdAndUpdate(
     { _id: contactId },
     body,
@@ -49,7 +49,7 @@ const updateContactService = async (contactId, body) => {
   return updateContact;
 };
 
-const deleteContactService = async contactId => {
+const deleteContact = async contactId => {
   const contact = await Contact.findOneAndRemove({ _id: contactId });
   if (!contact) {
     throw new HttpError(404, `Contact with id: ${contactId} not found`);
@@ -58,9 +58,9 @@ const deleteContactService = async contactId => {
 };
 
 module.exports = {
-  getContactsService,
-  getContactService,
-  createContactService,
-  updateContactService,
-  deleteContactService,
+  getAllContacts,
+  getContactById,
+  createContact,
+  updateContact,
+  deleteContact,
 };

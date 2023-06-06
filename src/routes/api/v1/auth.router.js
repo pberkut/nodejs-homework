@@ -52,4 +52,4 @@ router.patch(
 
 router.post('/logout', authenticate, authController.logoutUser);
 
-module.exports = { usersRouter: router };
+module.exports = { authRouter: router };

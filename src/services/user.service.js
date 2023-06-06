@@ -1,4 +1,11 @@
+const bcrypt = require('bcrypt');
+const gravatar = require('gravatar');
+const { v4: uuidv4 } = require('uuid');
+
 const { User } = require('../models');
+const { HttpError } = require('../utils');
+
+const { BCRYPT_SALT } = process.env;
 
 const getUserByEmail = async email => {
   return User.findOne({ email });
@@ -8,34 +15,25 @@ const getUserById = async userId => {
   return User.findById(userId);
 };
 
-const register = async body => {
-  const { email, subscription } = await User.create(body);
-  return {
-    user: {
-      email,
-      subscription,
-    },
-  };
+const getUserByVerificationToken = async verificationToken => {
+  const fetchedUser = await User.findOne({ verificationToken });
+  if (!fetchedUser) throw new HttpError(404, 'User not found');
+  return fetchedUser;
 };
 
-const login = async (userId, body) => {
-  const { token, email, avatarURL, subscription } =
-    await User.findByIdAndUpdate({ _id: userId }, body, {
-      new: true,
-      select: 'email subscription avatarURL token',
-    });
-  return {
-    token,
-    user: {
-      email,
-      avatarURL,
-      subscription,
-    },
-  };
-};
+const createUser = async (email, password) => {
+  const hashedPassword = await bcrypt.hash(password, parseInt(BCRYPT_SALT));
+  const avatarURL = gravatar.url(email, { s: '250' }, true);
+  const verificationToken = uuidv4();
 
-const logout = async userId => {
-  return User.findByIdAndUpdate(userId, { token: null });
+  const newUser = await User.create({
+    email,
+    password: hashedPassword,
+    avatarURL,
+    verificationToken,
+  });
+
+  return newUser;
 };
 
 const updateSubscription = async (userId, body) => {
@@ -63,32 +61,12 @@ const getAvatar = async userId => {
   return { avatarURL, idCloudAvatar };
 };
 
-const getUserByVerificationToken = async verificationToken => {
-  return await User.findOne({ verificationToken });
-};
-
-const verifyEmail = async userId => {
-  await User.findByIdAndUpdate(
-    userId,
-    {
-      verify: true,
-      verificationToken: null,
-    },
-    { new: true },
-  );
-};
-
-const userServices = {
-  getUserById,
+module.exports = {
   getUserByEmail,
+  getUserById,
   getUserByVerificationToken,
-  register,
-  verifyEmail,
-  login,
+  createUser,
   updateSubscription,
   updateAvatar,
   getAvatar,
-  logout,
 };
-
-module.exports = userServices;

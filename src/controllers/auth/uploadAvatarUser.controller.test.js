@@ -1,9 +1,3 @@
-/* 
-unit-тесты для контроллера обновления аватарки (uploadAvatarUser)
-- ответ должен иметь статус-код 200
-- в ответе должен возвращаться URL аватарки
-*/
-
 const request = require('supertest');
 const fs = require('fs/promises');
 const path = require('path');

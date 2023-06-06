@@ -28,7 +28,7 @@ const userSchema = new Schema(
       required: true,
     },
     idCloudAvatar: { type: String, default: null },
-    token: {
+    refreshToken: {
       type: String,
       default: null,
     },
