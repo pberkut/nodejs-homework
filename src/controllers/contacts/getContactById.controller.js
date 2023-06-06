@@ -3,7 +3,7 @@ const { contactsService } = require('../../services');
 
 const getContactById = controllerWrapper(async (req, res) => {
   const { contactId } = req.params;
-  const contact = await contactsService.getContact(contactId);
+  const contact = await contactsService.getContactById(contactId);
   return res.json(contact);
 });
 

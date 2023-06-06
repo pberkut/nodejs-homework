@@ -31,8 +31,9 @@ const authenticate = async (req, res, next) => {
       !fetchedUser.refreshToken
       // ||
       // fetchedUser.refreshToken !== token
-    )
+    ) {
       throw new HttpError(401, 'Not authorized');
+    }
 
     jwt.verify(token, JWT_ACCESS_TOKEN_SECRET_KEY);
 

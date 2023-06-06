@@ -1,10 +1,10 @@
 const { controllerWrapper } = require('../../utils');
-const { authService, emailService } = require('../../services');
+const { verifyService, emailService } = require('../../services');
 
 const resendVerifyEmail = controllerWrapper(async (req, res) => {
   const { email } = req.body;
 
-  const user = await authService.resendVerifyEmail(email);
+  const user = await verifyService.resendVerifyEmail(email);
 
   await emailService.sendVerificationEmail(email, user.verificationToken);
 

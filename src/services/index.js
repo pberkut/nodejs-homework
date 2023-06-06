@@ -4,3 +4,4 @@ module.exports.cloudService = require('./cloud.service');
 module.exports.contactsService = require('./contacts.service');
 module.exports.userService = require('./user.service');
 module.exports.tokenService = require('./token.service');
+module.exports.verifyService = require('./verify.service');
