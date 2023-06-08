@@ -19,11 +19,7 @@ const authenticate = async (req, res, next) => {
 
     fetchedUser = await userService.getUserById(userId);
 
-    if (
-      !fetchedUser ||
-      !fetchedUser.refreshToken
-      // || fetchedUser.refreshToken !== token
-    ) {
+    if (!fetchedUser || !fetchedUser.refreshToken) {
       throw new HttpError(401, 'Not authorized');
     }
 
