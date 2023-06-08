@@ -1,11 +1,9 @@
 const { Schema, model } = require('mongoose');
 const { handleMongooseError } = require('../utils');
 
-const {
-  EMAIL_REGEXP,
-  PASSWORD_REGEXP,
-  SUBSCRIPTION_LIST,
-} = require('../constants/regexp');
+const { EMAIL_REGEXP, PASSWORD_REGEXP } = require('../constants/regexp');
+
+const { SUBSCRIPTION_LIST } = require('../constants/constants');
 
 const userSchema = new Schema(
   {
@@ -30,9 +28,17 @@ const userSchema = new Schema(
       required: true,
     },
     idCloudAvatar: { type: String, default: null },
-    token: {
+    refreshToken: {
       type: String,
       default: null,
+    },
+    verify: {
+      type: Boolean,
+      default: false,
+    },
+    verificationToken: {
+      type: String,
+      required: [true, 'Verify token is required'],
     },
   },
   { versionKey: false, timestamps: true },

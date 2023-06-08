@@ -83,11 +83,9 @@
             }).then(response => {
                 const { email, avatarURL, subscription } = response.data.user
                 const { token } = response.data
-                const imgURL = `${BASE_URL}/${avatarURL}`
+                const imgURL = `${avatarURL}`
 
                 localStorage.setItem('token', token)
-
-
                 outputCurrentUser.innerHTML = `
             <h4>Email: ${email}</h4>
             <img src="${imgURL}" alt="${email}" >

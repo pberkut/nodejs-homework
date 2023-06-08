@@ -1,9 +1,3 @@
-/* 
-unit-тесты для контроллера входа (register)
-- ответ должен иметь статус-код 201
-- в ответе должен возвращаться объект
-*/
-
 const request = require('supertest');
 const app = require('../../app');
 const connectDB = require('../../db/connectDB');
