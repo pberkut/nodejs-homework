@@ -97,4 +97,7 @@ npm run debug
 - CORS: Cross-Origin Resource-Sharing enabled using cors
 - Docker support
 - Linting: with ESLint and Prettier
-- Used API cloud storage Cloudinary
+- Cloudinary API: Used cloud storage Cloudinary
+- Jimp: JavaScript Image Manipulation Program
+- JWT: using jsonwebtoken with access and refresh token
+- Sendgrid API: using a cloud-based SMTP provider
