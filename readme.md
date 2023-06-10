@@ -1,30 +1,48 @@
-## Node.js App contacts RESTful API
+# RESTful API NodeJS server application "contacts manager"
 
-This this Node.js App "Contacts" RESTful API with authorization. App deploy Render service.
+This this RESTful API Node.js server application "Contacts manger" with authorization. App deployed in render.com service.
 
+API URL:
 <https://nodejs-rest-api-backend-m9yr.onrender.com>
 
-Work with users
-```
-// signup user
+Detailed POSTMAN documentation:
+<https://documenter.getpostman.com/view/22431847/2s93sabDLK>
+
+## API Documentations & Endpoints
+
+### Authorization user routes
+
+```js
+// POST. Signup user.
 /users/register
 
-// signin user
+// GET. Verify email.
+/auth/verify/:verificationToken
+
+// POST. Resend verify email.
+/auth/verify
+
+// POST. Signin user.
 /users/login
 
-// Get current user
+// GET. Get current user.
 /users/current
 
-// Change subscription user. Subscription items using variant starter, pro, business
+// PATCH. Update subscription user. Subscription items using variant: [starter, pro, business].
 /users/subscription
 
+// PATCH. Upload avatar to user profile. Used files storage cloudinary.
+/auth/avatars
 
-// Logout user
+// POST. Logout user.
 /users/logout
 ```
 
-Work with contacts through authorization
-```
+### Contacts rotes
+
+Work with contacts through authorization.
+
+```js
 // GET. Get all contacts
 /api/contacts
 
@@ -44,12 +62,38 @@ Work with contacts through authorization
 /api/contacts/:contactId
 ```
 
+## Manual Installation
 
-### Commands
+```js
+// Clone repository
+git clone https://github.com/pberkut/nodejs-rest-api-backend.git .
 
+// Install the dependencies
+npm install
+
+// Set the environment variable
+// Open .env and modify the environment variables
+cp .env.example .env
+
+// Start the server in production mode
+npm start
+
+// Start the server in development mode
+npm run start:dev
+
+// Start the server in debugger mode
+npm run debug
 ```
-- `npm start` &mdash; старт сервера в режимі production
-- `npm run start:dev` &mdash; старт сервера в режимі розробки (development)
-- `npm run lint` &mdash; запустити виконання перевірки коду з eslint, необхідно виконувати перед кожним PR та виправляти всі помилки лінтера
-- `npm lint:fix` &mdash; та ж перевірка лінтера, але з автоматичними виправленнями простих помилок
-```
+
+## Features
+
+- NoSQL database: MongoDB object data modeling using Mongoose
+- Authentication and authorization: using my-self code
+- Validation: request data validation using Joi
+- Logging: using morgan
+- Testing: unit and integration tests using Jest
+- Error handling: centralized error handling mechanism
+- Environment variables: using dotenv
+- CORS: Cross-Origin Resource-Sharing enabled using cors
+- Docker support
+- Linting: with ESLint and Prettier
