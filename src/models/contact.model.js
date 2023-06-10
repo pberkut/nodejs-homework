@@ -15,7 +15,6 @@ const contactSchema = new Schema(
       type: String,
       match: EMAIL_REGEXP,
       required: [true, 'Email is required'],
-      unique: true,
     },
     phone: {
       type: String,
