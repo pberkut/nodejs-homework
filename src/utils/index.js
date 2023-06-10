@@ -3,6 +3,7 @@ const controllerWrapper = require('./controllerWrapper');
 const handleMongooseError = require('./handleMongooseError');
 const sendEmail = require('./sendEmail');
 const assignTokens = require('./assignTokens');
+const Cloudinary = require('./cloudinary');
 
 module.exports = {
   HttpError,
@@ -10,4 +11,5 @@ module.exports = {
   handleMongooseError,
   sendEmail,
   assignTokens,
+  Cloudinary,
 };
