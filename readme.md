@@ -1,6 +1,6 @@
 # RESTful API NodeJS server application "contacts manager"
 
-This this RESTful API Node.js server application "Contacts manger" with authorization. App deployed in render.com service.
+This this RESTful API Node.js server application "Contacts manager" with authorization. App deployed in render.com service.
 
 API URL:
 <https://nodejs-rest-api-backend-m9yr.onrender.com>
@@ -13,29 +13,29 @@ Detailed POSTMAN documentation:
 ### Authorization user routes
 
 ```js
-// POST. Signup user.
-/users/register
+// POST. Signup user
+/auth/register
 
-// GET. Verify email.
+// GET. Verify email
 /auth/verify/:verificationToken
 
-// POST. Resend verify email.
+// POST. Resend verify email
 /auth/verify
 
-// POST. Signin user.
-/users/login
+// POST. Signin user
+/auth/login
 
-// GET. Get current user.
-/users/current
+// GET. Get current user
+/auth/current
 
-// PATCH. Update subscription user. Subscription items using variant: [starter, pro, business].
-/users/subscription
+// PATCH. Update subscription user. Subscription items using variant: [starter, pro, business]
+/auth/subscription
 
-// PATCH. Upload avatar to user profile. Used files storage cloudinary.
+// PATCH. Upload avatar to user profile. Used API cloud storage Cloudinary
 /auth/avatars
 
-// POST. Logout user.
-/users/logout
+// POST. Logout user
+/auth/logout
 ```
 
 ### Contacts rotes
@@ -97,3 +97,4 @@ npm run debug
 - CORS: Cross-Origin Resource-Sharing enabled using cors
 - Docker support
 - Linting: with ESLint and Prettier
+- Used API cloud storage Cloudinary
