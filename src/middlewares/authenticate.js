@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { HttpError, assignTokens } = require('../utils');
-const { userService, tokenService } = require('../services');
+const { userServices, tokenServices } = require('../services');
 const { JWT_ACCESS_TOKEN_SECRET_KEY, JWT_REFRESH_TOKEN_SECRET_KEY } = process.env;
 
 const authenticate = async (req, res, next) => {
@@ -17,7 +17,7 @@ const authenticate = async (req, res, next) => {
 
     const { userId } = jwt.decode(token);
 
-    fetchedUser = await userService.getUserById(userId);
+    fetchedUser = await userServices.getUserById(userId);
 
     if (!fetchedUser || !fetchedUser.refreshToken) {
       throw new HttpError(401, 'Not authorized');
@@ -36,7 +36,7 @@ const authenticate = async (req, res, next) => {
     try {
       jwt.verify(fetchedUser.refreshToken, JWT_REFRESH_TOKEN_SECRET_KEY);
       const { accessToken, refreshToken } = assignTokens(fetchedUser);
-      await tokenService.updateRefreshToken(fetchedUser._id, refreshToken);
+      await tokenServices.updateRefreshToken(fetchedUser._id, refreshToken);
       res.status(200).json({ accessToken });
     } catch (error) {
       next(new HttpError(401, 'Refresh token is expired'));

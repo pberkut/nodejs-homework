@@ -29,7 +29,7 @@ const contactSchema = new Schema(
       ref: 'user',
     },
   },
-  { versionKey: false, collation: 'Contacts', timestamps: true },
+  { collection: 'contacts', versionKey: false, timestamps: true },
 );
 
 contactSchema.post('save', handleMongooseError);

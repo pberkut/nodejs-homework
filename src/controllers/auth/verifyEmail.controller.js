@@ -1,12 +1,12 @@
 const { controllerWrapper } = require('../../utils');
-const { verifyService, emailService } = require('../../services');
+const { verifyServices, emailServices } = require('../../services');
 
 const verifyEmail = controllerWrapper(async (req, res) => {
   const { verificationToken } = req.params;
 
-  const user = await verifyService.verifyEmail(verificationToken);
+  const user = await verifyServices.verifyEmail(verificationToken);
 
-  await emailService.sendSuccessVerificationEmail(user.email);
+  await emailServices.sendSuccessVerificationEmail(user.email);
 
   res.json({ message: 'Verification successful' });
 });

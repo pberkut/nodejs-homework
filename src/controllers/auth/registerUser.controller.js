@@ -1,12 +1,12 @@
 const { controllerWrapper } = require('../../utils');
-const { authService, emailService } = require('../../services');
+const { authServices, emailServices } = require('../../services');
 
 const registerUser = controllerWrapper(async (req, res) => {
-  const user = await authService.register(req.body);
+  const user = await authServices.register(req.body);
 
   const { email, subscription, avatarURL, verificationToken } = user;
 
-  await emailService.sendVerificationEmail(email, verificationToken);
+  await emailServices.sendVerificationEmail(email, verificationToken);
 
   res.status(201).json({ user: { email, avatarURL, subscription } });
 });

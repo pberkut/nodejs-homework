@@ -1,10 +1,10 @@
 const request = require('supertest');
-const app = require('../../app');
-const connectDB = require('../../db/connectDB');
+const app = require('../../../src/app');
+const connectDB = require('../../../src/db/connectDB');
 
-const loginUser = require('./loginUser.controller');
+const loginUser = require('../../../src/controllers/auth/loginUser.controller');
 
-const newUserTest = require('../../../tests/data/usersForTest');
+const newUserTest = require('../../data/usersForTest');
 
 app.post('/users/login', loginUser);
 

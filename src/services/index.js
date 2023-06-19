@@ -1,7 +1,17 @@
-module.exports.authService = require('./auth.service');
-module.exports.emailService = require('./email.service');
-module.exports.cloudService = require('./cloud.service');
-module.exports.contactsService = require('./contacts.service');
-module.exports.userService = require('./user.service');
-module.exports.tokenService = require('./token.service');
-module.exports.verifyService = require('./verify.service');
+const { authServices } = require('./authServices');
+const { emailServices } = require('./emailServices');
+const { cloudServices } = require('./cloudServices');
+const { contactsServices } = require('./contactsServices');
+const { userServices } = require('./userServices');
+const { tokenServices } = require('./tokenServices');
+const { verifyServices } = require('./verifyServices');
+
+module.exports = {
+  authServices,
+  emailServices,
+  cloudServices,
+  contactsServices,
+  userServices,
+  tokenServices,
+  verifyServices,
+};

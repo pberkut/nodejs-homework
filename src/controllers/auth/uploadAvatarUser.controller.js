@@ -1,8 +1,7 @@
 const fs = require('fs/promises');
 
 const { controllerWrapper } = require('../../utils');
-const { userService } = require('../../services');
-const cloudServices = require('../../services/cloud.service');
+const { userServices, cloudServices } = require('../../services');
 
 const uploadAvatarUser = controllerWrapper(async (req, res) => {
   const { _id } = req.user;
@@ -12,9 +11,9 @@ const uploadAvatarUser = controllerWrapper(async (req, res) => {
     pathFile,
   );
 
-  const oldAvatar = await userService.getAvatar(_id);
+  const oldAvatar = await userServices.getAvatar(_id);
   await cloudServices.deleteAvatar(oldAvatar);
-  await userService.updateAvatar(_id, avatarURL, idCloudAvatar);
+  await userServices.updateAvatar(_id, avatarURL, idCloudAvatar);
   await fs.unlink(pathFile);
 
   res.json({ avatarURL });

@@ -1,9 +1,9 @@
 const { controllerWrapper } = require('../../utils');
-const { contactsService } = require('../../services');
+const { contactsServices } = require('../../services');
 
 const deleteContact = controllerWrapper(async (req, res) => {
   const { contactId } = req.params;
-  await contactsService.deleteContact(contactId);
+  await contactsServices.deleteContact(contactId);
   return res.json({ message: 'Contact deleted' });
 });
 
