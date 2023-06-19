@@ -7,7 +7,7 @@ const connectDB = require('../../db/connectDB');
 const loginUser = require('./loginUser.controller');
 const uploadAvatarUser = require('./uploadAvatarUser.controller');
 
-const newUserTest = require('../../../tests/data/usersForTest');
+const newUserTest = require('../../../data/usersForTest');
 const pathAvatar = path.join(process.cwd(), 'tests', 'data', 'avatar-default.jpg');
 
 // jest.mock('cloudinary');

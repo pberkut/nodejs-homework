@@ -11,7 +11,7 @@ const register = Joi.object({
   password: Joi.string().pattern(PASSWORD_REGEXP).required().messages({
     'any.required': 'Missing required password field',
     'string.pattern.base':
-      'Password should contain at least 6 characters one letter and one number',
+      'Password should contain minimum 6 characters, at least one letter and one number',
   }),
   subscription: Joi.string().valid(...SUBSCRIPTION_LIST),
 });

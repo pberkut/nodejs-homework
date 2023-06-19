@@ -5,11 +5,14 @@ module.exports = {
     node: true,
     'jest/globals': true,
   },
-  extends: ['standard', 'prettier'],
+  extends: ['eslint:recommended', 'prettier'],
   parserOptions: {
     ecmaVersion: 12,
   },
-  plugins: ['jest'],
+  plugins: ['jest', 'prettier'],
+  parserOptions: {
+    ecmaVersion: 'latest',
+  },
   rules: {
     'jest/no-disabled-tests': 'warn',
     'jest/no-focused-tests': 'error',
