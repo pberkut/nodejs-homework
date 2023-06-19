@@ -40,6 +40,12 @@ const userSchema = new Schema(
       type: String,
       required: [true, 'Verify token is required'],
     },
+    contacts: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'contact',
+      },
+    ],
   },
   { versionKey: false, timestamps: true },
 );
