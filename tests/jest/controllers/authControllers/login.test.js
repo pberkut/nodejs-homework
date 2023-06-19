@@ -34,7 +34,7 @@ describe('login controller', () => {
       });
 
       it('return 401 unauthorized, if email is not a valid email', async () => {
-        const invalidData = { email: 'testtest' };
+        const invalidData = { email: 'test test' };
         const res = await request(app).post(loginRoute).send(invalidData);
 
         expect(res.status).toEqual(422);

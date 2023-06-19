@@ -36,7 +36,7 @@ describe('register controller', () => {
       });
 
       it('return 401 unauthorized, if email is not a valid email', async () => {
-        const invalidData = { email: 'testtest' };
+        const invalidData = { email: 'test test' };
         const res = await request(app).post(registerRoute).send(invalidData);
 
         expect(res.status).toEqual(422);
